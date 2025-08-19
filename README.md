@@ -21,17 +21,30 @@
 
 
 
-明确告诉我修改什么文件的第几行, 
-并且给出唯一标准 不要让我选怎么修改
-输出修改方法的完整代码
 
 
-无法正确加载缓存数据
+
+
 
 
 
 v.0.0.8
+文件关系在 tree.txt 里
+以上传文件为基础, 修改项目代码,
+除了明确修改的内容其他完全不要更改,
+若需要联网搜索则不要直接编写代码, 请提示我开启联网功能
+明确告诉我修改什么文件的第几行, 
+并且给出唯一标准 不要让我选怎么修改
+输出修改方法的完整代码
 
+修改 bug
+1. 无法正确加载缓存数据
+以及其他错误信息
+playlist.js:164 Uncaught ReferenceError: setCurrentAudio is not defined
+    at playNextInPlaylist (playlist.js:164:9)
+    at HTMLButtonElement.playSelectedAudios (playlist.js:125:5)
+playNextInPlaylist @ playlist.js:164
+playSelectedAudios @ playlist.js:125
 ---
 v.0.0.7
 文件关系在 tree.txt 里

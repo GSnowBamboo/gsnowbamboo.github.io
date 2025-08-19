@@ -77,9 +77,9 @@ export function loadFromCache() {
             const parsedData = JSON.parse(cachedData);
             tableData = parsedData.tableData || [];
             
-            // 恢复音频文件路径
+            // 恢复音频文件路径 - 修复这里
             tableData.forEach(item => {
-                if (item.time) {
+                if (item.time && (!item.audioFile || item.audioFile === null)) {
                     const audioFileName = item.time.replace(/:/g, '.') + '.en.mp3';
                     item.audioFile = `./assets/mp3/en/${audioFileName}`;
                 }

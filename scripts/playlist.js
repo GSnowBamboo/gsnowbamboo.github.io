@@ -3,7 +3,8 @@ import {
     currentAudio, 
     currentPlaylist, 
     currentPlayIndex, 
-    playAudio 
+    playAudio,
+    setCurrentAudio
 } from './data.js';
 
 // 播放列表元素
