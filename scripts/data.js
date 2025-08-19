@@ -276,3 +276,19 @@ export function showCacheIndicator() {
         }, 1000);
     }, 3000);
 }
+
+// 播放音频函数
+export function playAudio(audioFile) {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+
+    if (audioFile) {
+        currentAudio = new Audio(audioFile);
+        currentAudio.play().catch(e => {
+            console.error('播放音频失败:', e);
+            alert('音频文件加载失败，请检查文件路径');
+        });
+    }
+}
