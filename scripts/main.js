@@ -5,8 +5,6 @@ import {
     showCacheIndicator 
 } from './data.js';
 import { 
-    setupColumnEditor, 
-    setupRowEditor, 
     populateTable, 
     setupTableEvents 
 } from './table.js';
