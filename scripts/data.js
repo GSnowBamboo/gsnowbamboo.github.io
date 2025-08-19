@@ -92,14 +92,17 @@ export function loadFromCache() {
     }
 }
 
-// 自动加载默认Excel文件
+// 修改 loadDefaultExcel 函数
 export function loadDefaultExcel() {
     loadFromCache();
     
+    // 如果缓存中有数据，直接返回
     if (tableData.length > 0) {
-        return; // 如果缓存中有数据，不再加载
+        console.log('使用缓存数据');
+        return;
     }
     
+    // 加载 Excel 文件
     fetch('./assets/excel/xiaoqian.xlsx')
         .then(response => {
             if (!response.ok) {
@@ -120,11 +123,17 @@ export function loadDefaultExcel() {
             
             // 显示缓存指示器
             showCacheIndicator();
+            
+            // 触发表格更新事件
+            window.dispatchEvent(new CustomEvent('dataLoaded'));
         })
         .catch(error => {
             console.error('加载默认Excel文件失败:', error);
             // 使用示例数据作为后备
             useSampleData();
+            
+            // 触发表格更新事件
+            window.dispatchEvent(new CustomEvent('dataLoaded'));
         });
 }
 

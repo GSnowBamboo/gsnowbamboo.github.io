@@ -30,12 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // 从缓存加载数据
     loadDefaultExcel();
     
-    // 设置事件监听器
-    setupColumnEditorEvents();
-    setupRowEditorEvents();
-    setupTableEvents();
-    setupCardEvents();
-    setupPlaylistEvents();
+    // 监听数据加载完成事件
+    window.addEventListener('dataLoaded', function() {
+        // 填充表格
+        populateTable();
+        
+        // 设置事件监听器
+        setupTableEvents();
+        setupCardEvents();
+        setupPlaylistEvents();
+    });
     
     // 绑定全局事件
     function setupColumnEditorEvents() {
@@ -62,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 列表播放按钮事件
     playlistBtn.addEventListener('click', function() {
+        // 确保播放列表显示最新数据
+        showPlaylist();
         playlistOverlay.style.display = 'flex';
     });
     
@@ -71,4 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
             playlistOverlay.style.display = 'none';
         }
     });
+    
+    // 初始化列编辑器和行编辑器事件
+    setupColumnEditorEvents();
+    setupRowEditorEvents();
 });

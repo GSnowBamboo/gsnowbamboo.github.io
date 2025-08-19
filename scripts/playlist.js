@@ -28,7 +28,7 @@ export function setupPlaylistEvents() {
     document.getElementById('stopPlaybackBtn').addEventListener('click', stopPlayback);
 }
 
-// 显示播放列表函数
+// 添加 showPlaylist 函数导出
 export function showPlaylist() {
     playlistTableBody.innerHTML = '';
     
@@ -43,7 +43,6 @@ export function showPlaylist() {
                 </td>
             </tr>
         `;
-        playlistOverlay.style.display = 'flex';
         return;
     }
     
@@ -76,9 +75,6 @@ export function showPlaylist() {
     
     // 重置全选状态
     selectAllPlaylist.checked = true;
-    
-    // 显示播放列表
-    playlistOverlay.style.display = 'flex';
 }
 
 // 播放单个音频
