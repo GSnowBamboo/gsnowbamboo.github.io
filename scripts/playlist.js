@@ -88,9 +88,10 @@ export function playSingleAudio(index) {
         currentAudio.currentTime = 0;
     }
     
-    // 播放选中的音频
-    currentAudio = new Audio(tableData[index].audioFile);
-    currentAudio.play().catch(e => {
+    // 播放选中的音频 - 使用setCurrentAudio函数而不是直接赋值
+    const newAudio = new Audio(tableData[index].audioFile);
+    setCurrentAudio(newAudio);
+    newAudio.play().catch(e => {
         console.error('播放音频失败:', e);
         alert('音频文件加载失败，请检查文件路径');
     });
