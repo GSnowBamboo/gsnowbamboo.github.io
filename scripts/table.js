@@ -1,8 +1,3 @@
-// 在文件顶部添加这些声明（如果它们还没有被定义）
-// 或者确保它们已经从 data.js 正确导入
-let currentRowIndex = null;
-let currentCardData = null;
-
 import { 
     tableData, 
     saveToCache, 
