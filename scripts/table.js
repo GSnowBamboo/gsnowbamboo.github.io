@@ -1,10 +1,18 @@
+// 在文件顶部添加这些声明（如果它们还没有被定义）
+// 或者确保它们已经从 data.js 正确导入
+let currentRowIndex = null;
+let currentCardData = null;
+
 import { 
     tableData, 
     saveToCache, 
-    playAudio
+    playAudio,
+    currentRowIndex, // 添加这行
+    currentCardData  // 添加这行
 } from './data.js';
 import { parseCode } from './syntax.js'; // 从正确模块导入
 import { showCard } from './card.js';
+
 
 // 表格容器元素
 const table = document.getElementById('dialogueTable');
@@ -63,17 +71,24 @@ export function setupTableEvents() {
     
     // 双击行事件
     tableBody.addEventListener('dblclick', function(e) {
-        const row = e.target.closest('tr');
-        if (!row) return;
+    const row = e.target.closest('tr');
+    if (!row) return;
+    
+    // 获取行索引（直接使用行索引）
+    const rowIndex = Array.from(tableBody.children).indexOf(row);
+    if (rowIndex >= 0 && rowIndex < tableData.length) {
+        // 设置当前行索引和卡片数据
+        currentRowIndex = rowIndex;
+        currentCardData = tableData[rowIndex];
         
-        // 获取行索引（直接使用行索引）
-        const rowIndex = Array.from(tableBody.children).indexOf(row);
-        if (rowIndex >= 0 && rowIndex < tableData.length) {
-            currentRowIndex = rowIndex;
-            currentCardData = tableData[rowIndex];
-            showCard(currentCardData);
-        }
-    });
+        // 导入 showCard 函数
+        import('./card.js').then(module => {
+            module.showCard(currentCardData);
+        }).catch(error => {
+            console.error('导入 card.js 模块失败:', error);
+        });
+    }
+});
     
     // 设置列宽调整功能
     setupColumnResizers();
