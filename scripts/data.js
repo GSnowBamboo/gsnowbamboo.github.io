@@ -248,6 +248,11 @@ export function useSampleData() {
     showCacheIndicator();
 }
 
+// 添加设置当前音频的函数
+export function setCurrentAudio(audio) {
+    currentAudio = audio;
+}
+
 // 保存数据到缓存
 export function saveToCache() {
     try {

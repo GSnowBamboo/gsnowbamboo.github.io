@@ -72,7 +72,7 @@ export function setupTableEvents() {
         // 获取行索引（直接使用行索引）
         const rowIndex = Array.from(tableBody.children).indexOf(row);
         if (rowIndex >= 0 && rowIndex < tableData.length) {
-            // 直接调用 showCard 函数，不修改导入的常量
+            // 直接调用 showCard 函数
             showCard(tableData[rowIndex]);
         }
     });

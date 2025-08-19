@@ -98,7 +98,7 @@ export function playSingleAudio(index) {
 // 播放选中的音频
 export function playSelectedAudios() {
     const playlistRows = document.querySelectorAll('#playlistTableBody tr');
-    const selectedPlaylist = []; // 使用局部变量而不是修改导入的常量
+    const selectedPlaylist = []; // 使用局部变量
     
     // 收集选中的行
     playlistRows.forEach((row, index) => {
@@ -160,14 +160,15 @@ export function playNextInPlaylist(playlist, playIndex) {
         }
         
         // 播放新音频
-        currentAudio = new Audio(audioData.audioFile);
-        currentAudio.play().catch(e => {
+        const newAudio = new Audio(audioData.audioFile);
+        setCurrentAudio(newAudio); // 使用函数设置当前音频
+        newAudio.play().catch(e => {
             console.error('播放音频失败:', e);
             alert('音频文件加载失败，请检查文件路径');
         });
         
         // 监听音频结束事件，播放下一个
-        currentAudio.onended = function() {
+        newAudio.onended = function() {
             playNextInPlaylist(playlist, playIndex);
         };
     } else {
