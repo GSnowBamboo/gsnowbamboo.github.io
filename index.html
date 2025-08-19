@@ -1,3 +1,212 @@
-<html>
-  helo world,,,,,,
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>千与千寻 - 台词分析系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="cache-indicator" id="cacheIndicator" style="display: none;">
+            <div class="cache-icon"></div>
+            <span>数据已缓存</span>
+        </div>
+        
+        <div class="syntax-tooltip" id="syntaxTooltip"></div>
+        
+        <header>
+            <div class="header-content">
+                <h1>千与千寻</h1>
+                <div class="header-buttons">
+                    <button class="edit-columns-btn" id="editColumnsBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        编辑表格列
+                    </button>
+                    
+                    <button class="playlist-btn" id="playlistBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        列表播放
+                    </button>
+                    
+                    <button class="row-edit-btn" id="rowEditBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="9" x2="15" y2="9"></line>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                            <line x1="9" y1="12" x2="15" y2="12"></line>
+                        </svg>
+                        行编辑
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="column-editor" id="columnEditor">
+            <h3>选择要显示的列</h3>
+            <div class="column-checkboxes">
+                <div class="column-option">
+                    <input type="checkbox" id="colTime" checked data-column="2">
+                    <label for="colTime">时间</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" id="colCharacter" checked data-column="3">
+                    <label for="colCharacter">人物</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" id="colEnglish" checked data-column="4">
+                    <label for="colEnglish">英文台词</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" id="colChinese" checked data-column="5">
+                    <label for="colChinese">中文台词</label>
+                </div>
+                <div class="column-option">
+                    <input type="checkbox" id="colAudio" checked data-column="6">
+                    <label for="colAudio">台词音频</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row-editor" id="rowEditor">
+            <h3>行编辑选项</h3>
+            <div class="row-editor-buttons">
+                <button class="analysis-btn" id="showAllRowsBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                    </svg>
+                    显示所有行
+                </button>
+                <button class="analysis-btn" id="showAudioRowsBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    仅显示有音频的行
+                </button>
+                <button class="analysis-btn" id="hideSelectedRowsBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    隐藏选中行
+                </button>
+            </div>
+        </div>
+        
+        <div class="table-container" id="tableContainer">
+            <table id="dialogueTable">
+                <thead>
+                    <tr>
+                        <th class="row-selector-header">选择</th>
+                        <th>序号</th>
+                        <th>时间</th>
+                        <th>人物</th>
+                        <th>英文台词</th>
+                        <th>中文台词</th>
+                        <th>台词音频</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 表格内容将通过JavaScript动态生成 -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="overlay" id="overlay">
+            <div class="card" id="dialogueCard">
+                <div class="card-header">
+                    <h2 class="card-title">台词详情</h2>
+                    <div class="analysis-buttons">
+                        <button class="analysis-btn lexical-btn" id="loadLexicalBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            加载词法文件
+                        </button>
+                        <button class="analysis-btn syntactic-btn" id="loadSyntacticBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            加载句法文件
+                        </button>
+                    </div>
+                </div>
+                <div class="card-content" id="cardContent">
+                    <div class="card-sentences">
+                        <div class="english-sentence">Mom, Dad, please wait for me!</div>
+                        <div class="chinese-sentence">妈妈，爸爸，请等等我！</div>
+                    </div>
+                    
+                    <div class="audio-section">
+                        <audio controls class="audio-player" id="cardAudioPlayer"></audio>
+                    </div>
+                    
+                    <div class="analysis-section">
+                        <div id="lexicalContent" class="analysis-content" style="display: none"></div>
+                        <div id="syntacticContent" class="analysis-content" style="display: none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 播放列表卡片 -->
+        <div class="overlay" id="playlistOverlay">
+            <div class="playlist-card" id="playlistCard">
+                <div class="card-header">
+                    <h2 class="card-title">播放列表</h2>
+                </div>
+                <div class="card-content">
+                    <div class="playlist-table-container">
+                        <table class="playlist-table" id="playlistTable">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAllPlaylist"></th>
+                                    <th>序号</th>
+                                    <th>英文台词</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="playlistTableBody">
+                                <!-- 播放列表内容将在这里动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="playlist-controls">
+                        <button class="playlist-btn-action play-btn" id="playSelectedBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            播放选中项
+                        </button>
+                        <button class="playlist-btn-action stop-btn" id="stopPlaybackBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                            停止播放
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/main.js" type="module"></script>
+</body>
 </html>
