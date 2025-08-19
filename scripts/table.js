@@ -66,24 +66,16 @@ export function setupTableEvents() {
     
     // 双击行事件
     tableBody.addEventListener('dblclick', function(e) {
-    const row = e.target.closest('tr');
-    if (!row) return;
-    
-    // 获取行索引（直接使用行索引）
-    const rowIndex = Array.from(tableBody.children).indexOf(row);
-    if (rowIndex >= 0 && rowIndex < tableData.length) {
-        // 设置当前行索引和卡片数据
-        currentRowIndex = rowIndex;
-        currentCardData = tableData[rowIndex];
+        const row = e.target.closest('tr');
+        if (!row) return;
         
-        // 导入 showCard 函数
-        import('./card.js').then(module => {
-            module.showCard(currentCardData);
-        }).catch(error => {
-            console.error('导入 card.js 模块失败:', error);
-        });
-    }
-});
+        // 获取行索引（直接使用行索引）
+        const rowIndex = Array.from(tableBody.children).indexOf(row);
+        if (rowIndex >= 0 && rowIndex < tableData.length) {
+            // 直接调用 showCard 函数，不修改导入的常量
+            showCard(tableData[rowIndex]);
+        }
+    });
     
     // 设置列宽调整功能
     setupColumnResizers();

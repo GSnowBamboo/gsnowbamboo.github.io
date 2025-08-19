@@ -98,23 +98,23 @@ export function playSingleAudio(index) {
 // 播放选中的音频
 export function playSelectedAudios() {
     const playlistRows = document.querySelectorAll('#playlistTableBody tr');
-    currentPlaylist = [];
+    const selectedPlaylist = []; // 使用局部变量而不是修改导入的常量
     
     // 收集选中的行
     playlistRows.forEach((row, index) => {
         const selector = row.querySelector('.playlist-selector');
         if (selector && selector.checked) {
-            currentPlaylist.push(index);
+            selectedPlaylist.push(index);
         }
     });
     
-    if (currentPlaylist.length === 0) {
+    if (selectedPlaylist.length === 0) {
         alert('请至少选择一项进行播放');
         return;
     }
     
-    // 重置播放状态
-    currentPlayIndex = -1;
+    // 使用局部变量而不是修改导入的常量
+    let currentPlayIndex = -1;
     
     // 移除所有高亮样式
     playlistRows.forEach(row => {
@@ -122,28 +122,28 @@ export function playSelectedAudios() {
     });
     
     // 开始播放
-    playNextInPlaylist();
+    playNextInPlaylist(selectedPlaylist, currentPlayIndex);
 }
 
 // 播放播放列表中的下一个音频
-export function playNextInPlaylist() {
-    if (currentPlayIndex >= 0) {
+export function playNextInPlaylist(playlist, playIndex) {
+    if (playIndex >= 0) {
         // 移除上一个播放项的高亮
-        const prevRow = document.querySelector(`#playlistTableBody tr:nth-child(${currentPlayIndex + 1})`);
+        const prevRow = document.querySelector(`#playlistTableBody tr:nth-child(${playIndex + 1})`);
         if (prevRow) {
             prevRow.classList.remove('playing-row');
         }
     }
     
-    currentPlayIndex++;
+    playIndex++;
     
-    if (currentPlayIndex >= currentPlaylist.length) {
+    if (playIndex >= playlist.length) {
         // 播放结束
         return;
     }
     
     const playlistRows = document.querySelectorAll('#playlistTableBody tr');
-    const currentIndex = currentPlaylist[currentPlayIndex];
+    const currentIndex = playlist[playIndex];
     
     // 高亮当前播放行
     if (currentIndex < playlistRows.length) {
@@ -168,11 +168,11 @@ export function playNextInPlaylist() {
         
         // 监听音频结束事件，播放下一个
         currentAudio.onended = function() {
-            playNextInPlaylist();
+            playNextInPlaylist(playlist, playIndex);
         };
     } else {
         // 如果没有音频文件，直接播放下一个
-        playNextInPlaylist();
+        playNextInPlaylist(playlist, playIndex);
     }
 }
 
