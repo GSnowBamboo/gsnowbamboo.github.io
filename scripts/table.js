@@ -4,6 +4,7 @@ import {
     playAudio
 } from './data.js';
 import { parseCode } from './syntax.js'; // 从正确模块导入
+import { showCard } from './card.js';
 
 // 表格容器元素
 const table = document.getElementById('dialogueTable');

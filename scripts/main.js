@@ -10,6 +10,7 @@ import {
 } from './table.js';
 import { setupCardEvents } from './card.js';
 import { setupPlaylistEvents } from './playlist.js';
+import { showPlaylist } from './playlist.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     // 元素引用
