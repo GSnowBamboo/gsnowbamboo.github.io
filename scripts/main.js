@@ -32,34 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const backgroundMusic = document.getElementById('backgroundMusic');
     const backgroundVideo = document.getElementById('backgroundVideo');
     
-    initMedia(); // 初始化媒体但不自动播放
-
-    // 尝试播放背景音乐（需要用户交互）
-    function tryPlayBackgroundMusic() {
-        if (backgroundMusic) {
-            backgroundMusic.volume = 1;
-            const playPromise = backgroundMusic.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    // 自动播放被阻止，需要用户交互
-                    console.log('背景音乐需要用户交互后才能播放');
-                });
-            }
-        }
-        
-        // 添加视频播放尝试
-        if (backgroundVideo) {
-            const videoPlayPromise = backgroundVideo.play();
-            if (videoPlayPromise !== undefined) {
-                videoPlayPromise.catch(error => {
-                    console.log('背景视频需要用户交互后才能播放');
-                });
-            }
-        }
-    }
-
-    
     // 页面加载后尝试播放背景音乐
     tryPlayBackgroundMusic();
     
@@ -85,39 +57,25 @@ document.addEventListener('DOMContentLoaded', function() {
     musicControlBtn.addEventListener('click', async function() {
         try {
             if (backgroundMusic.paused) {
-                // 先暂停再播放，避免冲突
-                backgroundMusic.pause();
-                backgroundVideo.pause();
-                
-                // 添加短暂延迟确保状态稳定
-                await new Promise(resolve => setTimeout(resolve, 100));
-                
-                // 播放音乐和视频
-                await backgroundMusic.play();
-                await backgroundVideo.play();
-                musicControlBtn.innerHTML = '🔊';
+                backgroundMusic.play()
+                    .then(() => {
+                        // 如果音乐播放成功，也尝试播放视频
+                        if (backgroundVideo.paused) {
+                            backgroundVideo.play().catch(e => console.error('播放视频失败:', e));
+                        }
+                        musicControlBtn.innerHTML = '🔊';
+                    })
+                    .catch(e => {
+                        console.error('播放音乐失败:', e);
+                        alert('请先点击页面任意位置激活媒体播放');
+                    });
             } else {
-                // 暂停音乐和视频
                 backgroundMusic.pause();
                 backgroundVideo.pause();
                 musicControlBtn.innerHTML = '🔇';
             }
         } catch (e) {
             console.error('媒体控制错误:', e);
-            
-            // 如果播放失败，尝试单独播放音乐
-            if (backgroundMusic.paused) {
-                try {
-                    await backgroundMusic.play();
-                    musicControlBtn.innerHTML = '🔊';
-                } catch (musicError) {
-                    console.error('播放音乐失败:', musicError);
-                    alert('无法播放背景音乐，请检查文件路径');
-                }
-            } else {
-                backgroundMusic.pause();
-                musicControlBtn.innerHTML = '🔇';
-            }
         }
     });
     
@@ -208,17 +166,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+     // 初始化媒体但不自动播放
+    function initMedia() {
+        if (backgroundMusic) {
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.preload = 'auto';
+        }
+        
+        if (backgroundVideo) {
+            backgroundVideo.preload = 'auto';
+            backgroundVideo.muted = true; // 确保视频静音
+        }
+    }
+    
+    initMedia();
+    
+    // 添加页面点击事件，用户第一次点击页面时播放媒体
+    document.addEventListener('click', function initMediaOnFirstInteraction() {
+        try {
+            // 播放视频（静音状态下通常允许自动播放）
+            if (backgroundVideo && backgroundVideo.paused) {
+                backgroundVideo.play().catch(e => {
+                    console.log('视频播放失败:', e);
+                });
+            }
+            
+            // 尝试播放音乐
+            if (backgroundMusic && backgroundMusic.paused) {
+                backgroundMusic.play().then(() => {
+                    musicControlBtn.innerHTML = '🔊';
+                }).catch(e => {
+                    console.log('音乐需要更多用户交互后才能播放');
+                });
+            }
+            
+            // 移除事件监听，只执行一次
+            document.removeEventListener('click', initMediaOnFirstInteraction);
+        } catch (e) {
+            console.error('初始化媒体播放失败:', e);
+        }
+    }, { once: true }); // 使用 { once: true } 确保只执行一次
+    
+
     // 初始化列编辑器和行编辑器事件
     // setupColumnEditorEvents();
     // setupRowEditorEvents();
 });
-
-// 添加页面点击事件，允许用户交互后播放
-document.addEventListener('click', function() {
-    // 尝试播放视频（静音状态下更可能成功）
-    if (backgroundVideo && backgroundVideo.paused) {
-        backgroundVideo.play().catch(e => {
-            console.log('视频自动播放被阻止，需要用户明确交互');
-        });
-    }
-}, { once: true }); // 只执行一次
