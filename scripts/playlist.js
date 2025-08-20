@@ -192,5 +192,5 @@ export function stopPlayback() {
         row.classList.remove('playing-row');
     });
     
-    currentPlayIndex = -1;
+    // currentPlayIndex = -1;
 }
