@@ -80,6 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 初始化列编辑器和行编辑器事件
-    setupColumnEditorEvents();
-    setupRowEditorEvents();
+    // setupColumnEditorEvents();
+    // setupRowEditorEvents();
 });
