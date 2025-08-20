@@ -32,10 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const backgroundMusic = document.getElementById('backgroundMusic');
     const backgroundVideo = document.getElementById('backgroundVideo');
     
+    initMedia(); // 初始化媒体但不自动播放
+
     // 尝试播放背景音乐（需要用户交互）
     function tryPlayBackgroundMusic() {
         if (backgroundMusic) {
-            backgroundMusic.volume = 0.3;
+            backgroundMusic.volume = 1;
             const playPromise = backgroundMusic.play();
             
             if (playPromise !== undefined) {
@@ -80,17 +82,59 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(musicControlBtn);
     
     // 音乐控制按钮点击事件
-    musicControlBtn.addEventListener('click', function() {
-        if (backgroundMusic.paused) {
-            backgroundMusic.play().catch(e => console.error('播放音乐失败:', e));
-            backgroundVideo.play().catch(e => console.error('播放视频失败:', e));
-            musicControlBtn.innerHTML = '🔊';
-        } else {
-            backgroundMusic.pause();
-            backgroundVideo.pause();
-            musicControlBtn.innerHTML = '🔇';
+    musicControlBtn.addEventListener('click', async function() {
+        try {
+            if (backgroundMusic.paused) {
+                // 先暂停再播放，避免冲突
+                backgroundMusic.pause();
+                backgroundVideo.pause();
+                
+                // 添加短暂延迟确保状态稳定
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // 播放音乐和视频
+                await backgroundMusic.play();
+                await backgroundVideo.play();
+                musicControlBtn.innerHTML = '🔊';
+            } else {
+                // 暂停音乐和视频
+                backgroundMusic.pause();
+                backgroundVideo.pause();
+                musicControlBtn.innerHTML = '🔇';
+            }
+        } catch (e) {
+            console.error('媒体控制错误:', e);
+            
+            // 如果播放失败，尝试单独播放音乐
+            if (backgroundMusic.paused) {
+                try {
+                    await backgroundMusic.play();
+                    musicControlBtn.innerHTML = '🔊';
+                } catch (musicError) {
+                    console.error('播放音乐失败:', musicError);
+                    alert('无法播放背景音乐，请检查文件路径');
+                }
+            } else {
+                backgroundMusic.pause();
+                musicControlBtn.innerHTML = '🔇';
+            }
         }
     });
+    
+    // 修改视频和音乐的初始化
+    function initMedia() {
+        // 设置媒体属性但不自动播放
+        if (backgroundMusic) {
+            backgroundMusic.volume = 1;
+            backgroundMusic.preload = 'auto';
+        }
+        
+        if (backgroundVideo) {
+            backgroundVideo.preload = 'auto';
+            backgroundVideo.muted = true; // 确保视频静音，提高自动播放成功率
+        }
+    }
+
     
     // 更新按钮状态
     backgroundMusic.addEventListener('play', function() {
@@ -168,3 +212,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // setupColumnEditorEvents();
     // setupRowEditorEvents();
 });
+
+// 添加页面点击事件，允许用户交互后播放
+document.addEventListener('click', function() {
+    // 尝试播放视频（静音状态下更可能成功）
+    if (backgroundVideo && backgroundVideo.paused) {
+        backgroundVideo.play().catch(e => {
+            console.log('视频自动播放被阻止，需要用户明确交互');
+        });
+    }
+}, { once: true }); // 只执行一次
