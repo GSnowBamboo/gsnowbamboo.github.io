@@ -58,25 +58,21 @@ export function showCard(data) {
                         <tbody>
                             ${syntaxInfo.sentenceType ? `
                                 <tr>
-                                    <th>句型</th>
                                     <td>${syntaxInfo.sentenceType}</td>
                                 </tr>
                             ` : ''}
                             ${syntaxInfo.sentenceStructure ? `
                                 <tr>
-                                    <th>结构</th>
                                     <td>${syntaxInfo.sentenceStructure}</td>
                                 </tr>
                             ` : ''}
                             ${syntaxInfo.tense ? `
                                 <tr>
-                                    <th>时态</th>
                                     <td>${syntaxInfo.tense}</td>
                                 </tr>
                             ` : ''}
                             ${syntaxInfo.components.length > 0 ? `
                                 <tr>
-                                    <th>句子成分</th>
                                     <td>${syntaxInfo.components.join('、')}</td>
                                 </tr>
                             ` : ''}
@@ -127,68 +123,6 @@ export function showCard(data) {
     } else if (newCardAudioPlayer) {
         newCardAudioPlayer.style.display = 'none';
     }
-    
-    // 绑定词法文件按钮事件
-    document.getElementById('loadLexicalBtn').addEventListener('click', function() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.xlsx, .xls';
-        input.onchange = e => {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataArray = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(dataArray, {type: 'array'});
-                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
-                
-                // 存储词法数据
-                data.lexicalData = jsonData;
-                
-                // 更新卡片显示
-                document.getElementById('lexicalContent').innerHTML = formatAnalysisData(jsonData);
-                document.getElementById('lexicalContent').style.display = 'block';
-                
-                // 保存到缓存
-                saveToCache();
-            };
-            reader.readAsArrayBuffer(file);
-        };
-        input.click();
-    });
-    
-    // 绑定句法文件按钮事件
-    document.getElementById('loadSyntacticBtn').addEventListener('click', function() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.xlsx, .xls';
-        input.onchange = e => {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const dataArray = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(dataArray, {type: 'array'});
-                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
-                
-                // 存储句法数据
-                data.syntacticData = jsonData;
-                
-                // 更新卡片显示
-                document.getElementById('syntacticContent').innerHTML = formatAnalysisData(jsonData);
-                document.getElementById('syntacticContent').style.display = 'block';
-                
-                // 保存到缓存
-                saveToCache();
-            };
-            reader.readAsArrayBuffer(file);
-        };
-        input.click();
-    });
     
     overlay.style.display = 'flex';
 }

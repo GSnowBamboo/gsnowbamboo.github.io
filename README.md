@@ -17,6 +17,8 @@
 
 
 
+1. 调整音频播放按钮位置, 放到英文台词单元格内, 顺序 播放按钮 然后 统一行 显示 英文台词
+2. 列表编辑 去掉 音频台词 选项
 
 
 
@@ -25,9 +27,16 @@
 
 
 
-
-
-
+v.0.0.9
+除了明确修改的内容其他完全不要更改,
+若需要联网搜索则不要直接编写代码, 请提示我开启联网功能
+明确告诉我修改什么文件的第几行, 
+并且给出唯一标准 不要让我选怎么修改
+输出修改方法的完整代码
+删除元素
+1. 去掉台词详情卡片页面的 加载词法文件 加载句法文件 2个按钮
+2. 去掉 语法分析 卡片中的 标题内容 如 句型 结构 时态 句子成分 等信息
+-----
 v.0.0.8
 文件关系在 tree.txt 里
 以上传文件为基础, 修改项目代码,
@@ -45,7 +54,7 @@ playlist.js:164 Uncaught ReferenceError: setCurrentAudio is not defined
     at HTMLButtonElement.playSelectedAudios (playlist.js:125:5)
 playNextInPlaylist @ playlist.js:164
 playSelectedAudios @ playlist.js:125
----
+-----
 v.0.0.7
 文件关系在 tree.txt 里
 以上传文件为基础, 修改项目代码,
