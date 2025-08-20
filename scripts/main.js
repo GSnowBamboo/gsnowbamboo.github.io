@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 尝试播放背景音乐（需要用户交互）
     function tryPlayBackgroundMusic() {
         if (backgroundMusic) {
-            backgroundMusic.volume = 0.3; // 设置音量
+            backgroundMusic.volume = 0.3;
             const playPromise = backgroundMusic.play();
             
             if (playPromise !== undefined) {
@@ -45,7 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         }
+        
+        // 添加视频播放尝试
+        if (backgroundVideo) {
+            const videoPlayPromise = backgroundVideo.play();
+            if (videoPlayPromise !== undefined) {
+                videoPlayPromise.catch(error => {
+                    console.log('背景视频需要用户交互后才能播放');
+                });
+            }
+        }
     }
+
     
     // 页面加载后尝试播放背景音乐
     tryPlayBackgroundMusic();
@@ -71,10 +82,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 音乐控制按钮点击事件
     musicControlBtn.addEventListener('click', function() {
         if (backgroundMusic.paused) {
-            backgroundMusic.play();
+            backgroundMusic.play().catch(e => console.error('播放音乐失败:', e));
+            backgroundVideo.play().catch(e => console.error('播放视频失败:', e));
             musicControlBtn.innerHTML = '🔊';
         } else {
             backgroundMusic.pause();
+            backgroundVideo.pause();
             musicControlBtn.innerHTML = '🔇';
         }
     });
@@ -86,6 +99,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     backgroundMusic.addEventListener('pause', function() {
         musicControlBtn.innerHTML = '🔇';
+    });
+
+    // 添加视频错误处理
+    backgroundVideo.addEventListener('error', function() {
+        console.error('视频加载失败，请检查文件路径:', this.src);
+        alert('背景视频加载失败，请检查background.mp4文件是否存在');
+    });
+
+    // 添加音乐错误处理
+    backgroundMusic.addEventListener('error', function() {
+        console.error('音乐加载失败，请检查文件路径:', this.src);
+        alert('背景音乐加载失败，请检查background.mp3文件是否存在');
     });
 
     // 从缓存加载数据
