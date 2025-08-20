@@ -182,6 +182,8 @@ export function playNextInPlaylist(playlist, playIndex) {
 // 停止播放
 export function stopPlayback() {
     if (currentAudio) {
+        // 移除onended事件监听器，防止停止后仍然触发
+        currentAudio.onended = null;
         currentAudio.pause();
         currentAudio.currentTime = 0;
     }
@@ -191,6 +193,4 @@ export function stopPlayback() {
     playlistRows.forEach(row => {
         row.classList.remove('playing-row');
     });
-    
-    // currentPlayIndex = -1;
 }
