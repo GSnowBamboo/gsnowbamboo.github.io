@@ -115,9 +115,18 @@ export function populateTable() {
             <td>${data.index}</td>
             <td>${data.time}</td>
             <td>${data.character}</td>
-            <td>${data.english}</td>
+            <td>
+                <div class="english-cell-content">
+                    ${data.audioFile ? `
+                        <div class="audio-controls-inline" data-audio="${data.audioFile}">
+                            <span class="audio-icon-inline"></span>
+                        </div>
+                    ` : ''}
+                    ${data.english}
+                </div>
+            </td>
             <td>${data.chinese}</td>
-            <td>${audioCellContent}</td>
+            <td style="display: none"></td> <!-- 隐藏原来的音频列 -->
         `;
         
         // 添加悬停效果
@@ -135,6 +144,7 @@ export function populateTable() {
         if (data.audioFile) {
             const audioControls = row.querySelector('.audio-controls');
             audioControls.addEventListener('click', function() {
+                e.stopPropagation(); // 防止事件冒泡到行
                 playAudio(data.audioFile);
             });
         }
@@ -196,7 +206,6 @@ function showSyntaxTooltip(e, rowData) {
         if (syntaxInfo.sentenceType) {
             contentHTML += `
                 <div class="syntax-item">
-                    <div class="syntax-label">句型:</div>
                     <div class="syntax-value">${syntaxInfo.sentenceType}</div>
                 </div>
             `;
@@ -205,7 +214,6 @@ function showSyntaxTooltip(e, rowData) {
         if (syntaxInfo.sentenceStructure) {
             contentHTML += `
                 <div class="syntax-item">
-                    <div class="syntax-label">结构:</div>
                     <div class="syntax-value">${syntaxInfo.sentenceStructure}</div>
                 </div>
             `;
@@ -214,7 +222,6 @@ function showSyntaxTooltip(e, rowData) {
         if (syntaxInfo.tense) {
             contentHTML += `
                 <div class="syntax-item">
-                    <div class="syntax-label">时态:</div>
                     <div class="syntax-value">${syntaxInfo.tense}</div>
                 </div>
             `;
@@ -223,7 +230,6 @@ function showSyntaxTooltip(e, rowData) {
         if (syntaxInfo.components && syntaxInfo.components.length > 0) {
             contentHTML += `
                 <div class="syntax-item">
-                    <div class="syntax-label">句子成分:</div>
                     <div class="syntax-value">${syntaxInfo.components.join('、')}</div>
                 </div>
             `;
