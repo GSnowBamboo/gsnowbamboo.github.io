@@ -43,12 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 绑定全局事件
-    function setupColumnEditorEvents() {
-        editColumnsBtn.addEventListener('click', function() {
-            columnEditor.style.display = columnEditor.style.display === 'block' ? 'none' : 'block';
-            rowEditor.style.display = 'none';
-        });
-    }
+    // function setupColumnEditorEvents() {
+    //     editColumnsBtn.addEventListener('click', function() {
+    //         columnEditor.style.display = columnEditor.style.display === 'block' ? 'none' : 'block';
+    //         rowEditor.style.display = 'none';
+    //     });
+    // }
     
     function setupRowEditorEvents() {
         rowEditBtn.addEventListener('click', function() {
