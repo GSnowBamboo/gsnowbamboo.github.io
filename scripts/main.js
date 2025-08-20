@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // });
 
     // 从缓存加载数据
-    // loadDefaultExcel();
+    loadDefaultExcel();
     
     // 监听数据加载完成事件
     window.addEventListener('dataLoaded', function() {

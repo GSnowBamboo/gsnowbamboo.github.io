@@ -94,7 +94,7 @@ export function loadFromCache() {
 
 // 修改 loadDefaultExcel 函数
 export function loadDefaultExcel() {
-    loadFromCache();
+    // loadFromCache();
     
     // 如果缓存中有数据，直接返回
     if (tableData.length > 0) {
