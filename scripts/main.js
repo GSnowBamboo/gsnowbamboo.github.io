@@ -32,8 +32,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const backgroundMusic = document.getElementById('backgroundMusic');
     const backgroundVideo = document.getElementById('backgroundVideo');
     
-    // 页面加载后尝试播放背景音乐
-    tryPlayBackgroundMusic();
+    // 初始化媒体但不自动播放
+    function initMedia() {
+        if (backgroundMusic) {
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.preload = 'auto';
+        }
+        
+        if (backgroundVideo) {
+            backgroundVideo.preload = 'auto';
+            backgroundVideo.muted = true; // 确保视频静音
+        }
+    }
+    
+    initMedia();
     
     // 添加播放/暂停背景音乐的按钮
     const musicControlBtn = document.createElement('button');
@@ -54,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(musicControlBtn);
     
     // 音乐控制按钮点击事件
-    musicControlBtn.addEventListener('click', async function() {
+    musicControlBtn.addEventListener('click', function() {
         try {
             if (backgroundMusic.paused) {
                 backgroundMusic.play()
@@ -79,21 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // 修改视频和音乐的初始化
-    function initMedia() {
-        // 设置媒体属性但不自动播放
-        if (backgroundMusic) {
-            backgroundMusic.volume = 1;
-            backgroundMusic.preload = 'auto';
-        }
-        
-        if (backgroundVideo) {
-            backgroundVideo.preload = 'auto';
-            backgroundVideo.muted = true; // 确保视频静音，提高自动播放成功率
-        }
-    }
-
-    
     // 更新按钮状态
     backgroundMusic.addEventListener('play', function() {
         musicControlBtn.innerHTML = '🔊';
@@ -101,18 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     backgroundMusic.addEventListener('pause', function() {
         musicControlBtn.innerHTML = '🔇';
-    });
-
-    // 添加视频错误处理
-    backgroundVideo.addEventListener('error', function() {
-        console.error('视频加载失败，请检查文件路径:', this.src);
-        alert('背景视频加载失败，请检查background.mp4文件是否存在');
-    });
-
-    // 添加音乐错误处理
-    backgroundMusic.addEventListener('error', function() {
-        console.error('音乐加载失败，请检查文件路径:', this.src);
-        alert('背景音乐加载失败，请检查background.mp3文件是否存在');
     });
 
     // 从缓存加载数据
@@ -128,58 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupCardEvents();
         setupPlaylistEvents();
     });
-    
-    // 绑定全局事件
-    // function setupColumnEditorEvents() {
-    //     editColumnsBtn.addEventListener('click', function() {
-    //         columnEditor.style.display = columnEditor.style.display === 'block' ? 'none' : 'block';
-    //         rowEditor.style.display = 'none';
-    //     });
-    // }
-    
-    function setupRowEditorEvents() {
-        rowEditBtn.addEventListener('click', function() {
-            const isVisible = rowEditor.style.display === 'block';
-            rowEditor.style.display = isVisible ? 'none' : 'block';
-            columnEditor.style.display = 'none';
-            
-            // 切换行选择列的显示
-            if (isVisible) {
-                tableContainer.classList.remove('row-editor-visible');
-            } else {
-                tableContainer.classList.add('row-editor-visible');
-            }
-        });
-    }
-    
-    // 列表播放按钮事件
-    playlistBtn.addEventListener('click', function() {
-        // 确保播放列表显示最新数据
-        showPlaylist();
-        playlistOverlay.style.display = 'flex';
-    });
-    
-    // 关闭播放列表事件
-    playlistOverlay.addEventListener('click', function(e) {
-        if (e.target === playlistOverlay) {
-            playlistOverlay.style.display = 'none';
-        }
-    });
-    
-     // 初始化媒体但不自动播放
-    function initMedia() {
-        if (backgroundMusic) {
-            backgroundMusic.volume = 0.3;
-            backgroundMusic.preload = 'auto';
-        }
-        
-        if (backgroundVideo) {
-            backgroundVideo.preload = 'auto';
-            backgroundVideo.muted = true; // 确保视频静音
-        }
-    }
-    
-    initMedia();
     
     // 添加页面点击事件，用户第一次点击页面时播放媒体
     document.addEventListener('click', function initMediaOnFirstInteraction() {
@@ -207,7 +140,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, { once: true }); // 使用 { once: true } 确保只执行一次
     
-
+    // 列表播放按钮事件
+    playlistBtn.addEventListener('click', function() {
+        // 确保播放列表显示最新数据
+        showPlaylist();
+        playlistOverlay.style.display = 'flex';
+    });
+    
+    // 关闭播放列表事件
+    playlistOverlay.addEventListener('click', function(e) {
+        if (e.target === playlistOverlay) {
+            playlistOverlay.style.display = 'none';
+        }
+    });
+    
     // 初始化列编辑器和行编辑器事件
     // setupColumnEditorEvents();
     // setupRowEditorEvents();
