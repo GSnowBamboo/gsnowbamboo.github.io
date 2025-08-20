@@ -29,64 +29,64 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectAllPlaylist = document.getElementById('selectAllPlaylist');
     
     // 背景音乐控制
-    // const backgroundMusic = document.getElementById('backgroundMusic');
-    // const backgroundVideo = document.getElementById('backgroundVideo');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const backgroundVideo = document.getElementById('backgroundVideo');
     
     // 尝试播放背景音乐（需要用户交互）
-    // function tryPlayBackgroundMusic() {
-    //     if (backgroundMusic) {
-    //         backgroundMusic.volume = 0.3; // 设置音量
-    //         const playPromise = backgroundMusic.play();
+    function tryPlayBackgroundMusic() {
+        if (backgroundMusic) {
+            backgroundMusic.volume = 0.3; // 设置音量
+            const playPromise = backgroundMusic.play();
             
-    //         if (playPromise !== undefined) {
-    //             playPromise.catch(error => {
-    //                 // 自动播放被阻止，需要用户交互
-    //                 console.log('背景音乐需要用户交互后才能播放');
-    //             });
-    //         }
-    //     }
-    // }
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    // 自动播放被阻止，需要用户交互
+                    console.log('背景音乐需要用户交互后才能播放');
+                });
+            }
+        }
+    }
     
     // 页面加载后尝试播放背景音乐
-    // tryPlayBackgroundMusic();
+    tryPlayBackgroundMusic();
     
     // 添加播放/暂停背景音乐的按钮
-    // const musicControlBtn = document.createElement('button');
-    // musicControlBtn.innerHTML = '🔇';
-    // musicControlBtn.style.position = 'fixed';
-    // musicControlBtn.style.bottom = '20px';
-    // musicControlBtn.style.right = '20px';
-    // musicControlBtn.style.zIndex = '1000';
-    // musicControlBtn.style.width = '40px';
-    // musicControlBtn.style.height = '40px';
-    // musicControlBtn.style.borderRadius = '50%';
-    // musicControlBtn.style.border = 'none';
-    // musicControlBtn.style.background = 'rgba(0, 0, 0, 0.5)';
-    // musicControlBtn.style.color = 'white';
-    // musicControlBtn.style.cursor = 'pointer';
-    // musicControlBtn.style.fontSize = '20px';
+    const musicControlBtn = document.createElement('button');
+    musicControlBtn.innerHTML = '🔇';
+    musicControlBtn.style.position = 'fixed';
+    musicControlBtn.style.bottom = '20px';
+    musicControlBtn.style.right = '20px';
+    musicControlBtn.style.zIndex = '1000';
+    musicControlBtn.style.width = '40px';
+    musicControlBtn.style.height = '40px';
+    musicControlBtn.style.borderRadius = '50%';
+    musicControlBtn.style.border = 'none';
+    musicControlBtn.style.background = 'rgba(0, 0, 0, 0.5)';
+    musicControlBtn.style.color = 'white';
+    musicControlBtn.style.cursor = 'pointer';
+    musicControlBtn.style.fontSize = '20px';
     
-    // document.body.appendChild(musicControlBtn);
+    document.body.appendChild(musicControlBtn);
     
     // 音乐控制按钮点击事件
-    // musicControlBtn.addEventListener('click', function() {
-    //     if (backgroundMusic.paused) {
-    //         backgroundMusic.play();
-    //         musicControlBtn.innerHTML = '🔊';
-    //     } else {
-    //         backgroundMusic.pause();
-    //         musicControlBtn.innerHTML = '🔇';
-    //     }
-    // });
+    musicControlBtn.addEventListener('click', function() {
+        if (backgroundMusic.paused) {
+            backgroundMusic.play();
+            musicControlBtn.innerHTML = '🔊';
+        } else {
+            backgroundMusic.pause();
+            musicControlBtn.innerHTML = '🔇';
+        }
+    });
     
     // 更新按钮状态
-    // backgroundMusic.addEventListener('play', function() {
-    //     musicControlBtn.innerHTML = '🔊';
-    // });
+    backgroundMusic.addEventListener('play', function() {
+        musicControlBtn.innerHTML = '🔊';
+    });
     
-    // backgroundMusic.addEventListener('pause', function() {
-    //     musicControlBtn.innerHTML = '🔇';
-    // });
+    backgroundMusic.addEventListener('pause', function() {
+        musicControlBtn.innerHTML = '🔇';
+    });
 
     // 从缓存加载数据
     loadDefaultExcel();
