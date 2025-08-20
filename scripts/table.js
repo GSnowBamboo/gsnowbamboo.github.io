@@ -142,8 +142,8 @@ export function populateTable() {
         
         // 绑定音频播放事件
         if (data.audioFile) {
-            const audioControls = row.querySelector('.audio-controls');
-            audioControls.addEventListener('click', function() {
+            const audioControls = row.querySelector('.audio-controls-inline');
+            audioControls.addEventListener('click', function(e) {
                 e.stopPropagation(); // 防止事件冒泡到行
                 playAudio(data.audioFile);
             });
