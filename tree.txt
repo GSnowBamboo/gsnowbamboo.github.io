@@ -1,0 +1,46 @@
+../gsnowbamboo.github.io
+├── assets
+│   ├── excel
+│   │   └── xiaoqian.xlsx
+│   └── mp3
+│       └── en
+│           ├── 00.00.14.383.en.mp3
+│           ├── 00.00.19.348.en.mp3
+│           ├── 00.00.23.093.en.mp3
+│           ├── 00.00.25.982.en.mp3
+│           ├── 00.00.25.983.en.mp3
+│           ├── 00.00.33.284.en.mp3
+│           ├── 00.00.33.285.en.mp3
+│           ├── 00.00.37.723.en.mp3
+│           ├── 00.00.47.574.en.mp3
+│           ├── 00.00.47.575.en.mp3
+│           ├── 00.00.53.951.en.mp3
+│           ├── 00.00.53.952.en.mp3
+│           ├── 00.00.59.978.en.mp3
+│           ├── 00.01.03.715.en.mp3
+│           ├── 00.01.07.051.en.mp3
+│           ├── 00.01.07.052.en.mp3
+│           ├── 00.01.07.053.en.mp3
+│           ├── 00.01.11.509.en.mp3
+│           ├── 00.01.14.553.en.mp3
+│           ├── 00.01.14.554.en.mp3
+│           ├── 00.01.17.196.en.mp3
+│           ├── 00.01.17.197.en.mp3
+│           └── 00.01.57.043.en.mp3
+├── faq.txt
+├── favicon.ico
+├── index.html
+├── index2.html
+├── README.md
+├── scripts
+│   ├── card.js
+│   ├── data.js
+│   ├── main.js
+│   ├── playlist.js
+│   ├── syntax.js
+│   └── table.js
+├── styles.css
+├── tip.md
+└── tree.txt
+
+5 directories, 38 files
