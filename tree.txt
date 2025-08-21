@@ -30,17 +30,10 @@
 ├── faq.txt
 ├── favicon.ico
 ├── index.html
-├── index2.html
 ├── README.md
 ├── scripts
-│   ├── card.js
-│   ├── data.js
-│   ├── main.js
-│   ├── playlist.js
-│   ├── syntax.js
-│   └── table.js
-├── styles.css
+│   └── main.js
 ├── tip.md
 └── tree.txt
 
-5 directories, 38 files
+5 directories, 31 files
