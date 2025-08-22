@@ -50,6 +50,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            position: relative; /* 添加相对定位 */
         }
 
         .title {
@@ -62,7 +63,6 @@
         }
         .player {
             position: relative;
-            margin-bottom: -300px;
             width: 600px;
             min-height: 50px;
             background: #fbfbfb;
@@ -73,6 +73,7 @@
                         10px 10px 15px rgba(0, 0, 0, 0.1),
                         inset -5px -5px 15px #fff,
                         inset 5px 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px; /* 添加底部外边距，为进度条腾出空间 */
         }
         .btns {
             position: relative;
@@ -94,6 +95,7 @@
             box-shadow: inset 0 -5px 5px rgba(0,0,0,0.1),
                         0 5px 10px rgba(0,0,0,0.1),
                         0 10px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
         .btns span:active {
             color: #ff669a;
@@ -119,10 +121,13 @@
             font-size: 2em;
         }
 
+        /* 修改进度条容器样式 */
         .progress-all {
             position: relative;
             width: 600px;
+            margin-top: 0; /* 移除原来的顶部间距 */
         }
+        
         /* 新增进度条样式 */
         .progress-container {
             width: 100%;
@@ -178,6 +183,7 @@
                         </span>
                     </div>
                 </div>
+                <!-- 将进度条移动到播放器下方 -->
                 <div class="progress-all">
                     <!-- 新增进度条 -->
                     <div class="progress-container">
@@ -191,8 +197,8 @@
             </div>
         </div>
     </div>
-    <div class="version-info">v.0.0.4</div>
-    <!-- v.0.0.4 -->
+    <div class="version-info">v.0.0.5</div>
+    <!-- 更新版本号 -->
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -232,11 +238,10 @@
     let song_Playing = false;
     let currentSongIndex = 0;
 
-    //load song
-    function loadSong(songList) {
-        title.textContent = songList.songName;
-        playPause.addEventListener; 
-        audio.src = songList.path;
+    // 加载歌曲
+    function loadSong(song) {
+        title.textContent = song.songName;
+        audio.src = song.path;
 
         // 重置进度条
         progress.style.width = '0%';
@@ -273,26 +278,24 @@
     playPause.addEventListener("click", () => (song_Playing ? pauseSong() : playSong()));
 
     //next song
-    let i = 0
-    loadSong(songList[i])
 
     function prevSong(){
-        i--;
-        if (i < 0 ){
-            i = songList.length - 1;
+        currentSongIndex--;
+        if (currentSongIndex < 0 ){
+            currentSongIndex = songList.length - 1;
         }
-        loadSong(songList[i]);
-        playSong();
+        loadSong(songList[currentSongIndex]);
+        if (song_Playing) playSong();
     }
     prev.addEventListener("click", prevSong);
 
     function nextSong(){
-        i++;
-        if (i > songList.length - 1){
-            i = 0;
+        currentSongIndex++;
+        if (currentSongIndex > songList.length - 1){
+            currentSongIndex = 0;
         }
-        loadSong(songList[i]);
-        playSong();
+        loadSong(songList[currentSongIndex]);
+        if (song_Playing) playSong();
     }
     next.addEventListener("click", nextSong);
 
@@ -318,8 +321,12 @@
         audio.currentTime = (clickX / width) * duration;
     }
 
+    // 事件监听
     audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('ended', nextSong); // 歌曲结束时自动播放下一首
-    // audio.addEventListener('ended', pauseSong); // 歌曲结束时直接结束
+    progressContainer.addEventListener('click', setProgress);
+
+    // 初始化加载第一首歌
+    loadSong(songList[currentSongIndex]);
 </script>
 </html>
