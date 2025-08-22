@@ -93,6 +93,34 @@
             display: block;
             margin-bottom: 10px;
         }
+        .language-en {
+            position: relative;
+            margin: 10px 10px 10px 25px; /* 上 右 下 左 - 底部5px间距 */
+            height: 450px;
+            width: 1150px;
+            border-radius: 10px;
+            /* background-color: #a0474745; */
+        }
+
+        /* 分割线样式 */
+        .language-line {
+            width: 1150px;
+            margin: 0px 10px 0px 25px;
+            height: 3px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .language-zh {
+            position: relative;
+            margin: 10px 10px 10px 25px; /* 上 右 下 左 - 底部5px间距 */
+            height: 65px;
+            width: 1150px;
+            border-radius: 10px;
+            /* background-color: #a0474745; */
+        }
         
         .player {
             position: relative;
@@ -349,10 +377,17 @@
 
             <div class="music">
                 <div class="detail-container">
-                    <span>
-                        分析图表 原文, 成分
-                        <h2 class="title"></h2>
-                    </span>
+                    <div class="language-en">
+                        En:<h2 class="title"></h2>
+                        <span>
+                            分析图表 原文, 成分
+                        </span>
+                    </div>
+                    <div class="language-line">
+                    </div>
+                    <div class="language-zh">
+                        中文asd 
+                    </div>
                 </div>
 
                 <div class="player">
