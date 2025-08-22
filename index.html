@@ -440,6 +440,35 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
+        .lyrics-modal span:hover {
+            color: #38a7ff;
+            transform: scale(1.1);
+        }
+        
+        .lyrics-modal span:active {
+            color: #ff669a;
+            box-shadow: inset 0 -7px 5px rgba(0,0,0,0.025),
+                        inset 0 5px 10px rgba(0,0,0,0.1);
+        }
+        .lyrics-modal span:active,
+        .lyrics-modal span.active {
+            color: #ff669a;
+            box-shadow: inset 0 -7px 5px rgba(0, 0, 0, 0.025),
+                inset 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        .lyrics-modal span.playPause {
+            width: 60px;
+            height: 60px;
+        }
+
+        .lyrics-modal span ion-icon {
+            font-size: 1.5em;
+        }
+
+        .lyrics-modal span.playPause ion-icon {
+            font-size: 2em;
+        }
                 
         .lyrics-content {
             background-color: #ff669a;
@@ -621,6 +650,7 @@
     const lyricsModal = document.getElementById('lyricsModal');
     const lyricsList = document.getElementById('lyricsList');
     const overlay = document.getElementById('overlay');
+    const myLines = document.querySelector('.my-lines');
     
     // 语言选项和状态
     const languageOptions = ['en', 'zh', 'en,zh'];
@@ -930,6 +960,11 @@
     // 初始化加载第一首歌
     loadSong(songList[currentSongIndex]);
 
+    function myLinesBtn(){
+        console.log('hi: ', 'my lines')
+    }
+    myLines.addEventListener("click", myLinesBtn);
+
     document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('watermarkContainer');
             const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -995,12 +1030,7 @@
                             
                             placed = true;
                         }
-                    }
-                    
-                    // 如果尝试多次仍找不到位置，跳过这个字母
-                    if (!placed) {
-                        console.log(`无法放置字母 ${letter}，跳过`);
-                    }
+                    }                    
                 }
             }
             
