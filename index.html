@@ -161,14 +161,14 @@
             font-size: 14px;
         }
 
-        /* 新增语言按钮样式 */
+        /* 修改语言按钮样式 */
         .language-btn {
             position: absolute;
-            top: -13px;
+            top: -11px;
             left: 15px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            min-width: 10px;
+            height: 22px;
+            border-radius: 15px;
             background: #fff;
             display: flex;
             justify-content: center;
@@ -180,11 +180,13 @@
             cursor: pointer;
             z-index: 10;
             transition: all 0.3s ease;
+            padding: 0 10px;
+            gap: 5px;
         }
 
         .language-btn:hover {
             color: #38a7ff;
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .language-btn:active {
@@ -195,6 +197,11 @@
 
         .language-btn ion-icon {
             font-size: 0.9em;
+        }
+        
+        .language-text {
+            font-size: 0.8em;
+            font-weight: 500;
         }
 
     </style>
@@ -210,9 +217,9 @@
                 </span>
                 <h2 class="title"> Music Name</h2>
                 <div class="player">
-                    <!-- 添加语言按钮 -->
-                    <div class="language-btn">
-                        <ion-icon name="megaphone-outline"></ion-icon>
+                    <!-- 修改语言按钮 -->
+                    <div class="language-btn" id="languageBtn">
+                        <span class="language-text">en</span>
                     </div>
                     
                     <audio src=""></audio>
@@ -257,7 +264,7 @@
             </div>
         </div>
     </div>
-    <div class="version-info">v.0.0.6</div>
+    <div class="version-info">v.0.0.7</div>
     <!-- 更新版本号 -->
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -272,6 +279,25 @@
     const progress = document.querySelector('.progress');
     const currentTimeEl = document.querySelector('.current-time');
     const durationEl = document.querySelector('.duration');
+    const languageBtn = document.getElementById('languageBtn');
+    const languageText = languageBtn.querySelector('.language-text');
+    
+    // 语言选项和状态
+    const languageOptions = ['en', 'zh', 'en,zh'];
+    let currentLanguageIndex = 0;
+    
+    // 切换语言函数
+    function toggleLanguage() {
+        currentLanguageIndex = (currentLanguageIndex + 1) % languageOptions.length;
+        languageText.textContent = languageOptions[currentLanguageIndex];
+        
+        // 可以根据选择的语言执行相应操作
+        console.log('Language changed to:', languageOptions[currentLanguageIndex]);
+    }
+    
+    // 添加语言切换事件
+    languageBtn.addEventListener('click', toggleLanguage);
+    
     //first,we will create song list
     const songList = [
         {
