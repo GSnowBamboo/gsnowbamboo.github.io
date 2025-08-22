@@ -746,6 +746,7 @@
     <!-- 遮罩层 -->
     <div class="overlay" id="overlay"></div>
 </body>
+
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
@@ -1097,6 +1098,28 @@
     }
     myLines.addEventListener("click", myLinesBtn);
 
+    // 新增：list-number-btns按钮点击事件
+    document.addEventListener('DOMContentLoaded', function() {
+        const listNumberBtns = document.querySelectorAll('.list-number-btns span');
+        
+        // 初始化第一个按钮为激活状态
+        listNumberBtns[0].classList.add('active');
+        
+        // 为每个按钮添加点击事件
+        listNumberBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有按钮的active类
+                listNumberBtns.forEach(b => b.classList.remove('active'));
+                
+                // 为当前点击的按钮添加active类
+                this.classList.add('active');
+                
+                // 这里可以添加其他逻辑，比如加载对应编号的歌词列表
+                console.log('Selected list:', this.textContent);
+            });
+        });
+    });
+    
     document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('watermarkContainer');
             const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
