@@ -147,6 +147,10 @@
             width: 1150px;
             border-radius: 10px;
         }
+
+        .language-zh span {
+            flood-color: #333;
+        }
         
         .player {
             position: relative;
@@ -653,7 +657,9 @@
                     <div class="language-line">
                     </div>
                     <div class="language-zh">
-                        中文asd 
+                        <span>
+                            这里是对应英语句子的翻译
+                        </span>
                     </div>
                 </div>
 
@@ -890,45 +896,39 @@
         
         // 为每首歌添加台词
         songList.forEach((song, index) => {
-            const songHeader = document.createElement('li');
-            songHeader.className = 'lyric-item';
-            songHeader.innerHTML = `<div class="lyric-en"><strong>${song.songName}</strong></div>`;
-            lyricsList.appendChild(songHeader);
+            // const songHeader = document.createElement('li');
+            // songHeader.className = 'lyric-item';
+            // songHeader.innerHTML = `<div class="lyric-en"><strong>${song.songName}</strong></div>`;
+            // lyricsList.appendChild(songHeader);
             
             // 添加该歌曲的所有台词
-            if (song.lines && song.lines.length > 0) {
-                song.lines.forEach((line, lineIndex) => {
-                    const lyricItem = document.createElement('li');
-                    lyricItem.className = 'lyric-item';
-                    lyricItem.dataset.songIndex = index;
-                    lyricItem.dataset.lineIndex = lineIndex;
+            if (song.en) {
+                const lyricItem = document.createElement('li');
+                lyricItem.className = 'lyric-item';
+                lyricItem.dataset.songIndex = index;
+                // lyricItem.dataset.lineIndex = lineIndex;
+                
+                let content = '';
+                if (song.en) content += `<div class="lyric-en">${song.en}</div>`;
+                // if (line.zh) content += `<div class="lyric-zh">${line.zh}</div>`;
+                
+                lyricItem.innerHTML = content;
+                
+                // 添加点击事件
+                lyricItem.addEventListener('click', () => {
+                    // 切换到对应歌曲
+                    if (currentSongIndex !== index) {
+                        currentSongIndex = index;
+                        loadSong(songList[currentSongIndex]);
+                    }
                     
-                    let content = '';
-                    if (line.en) content += `<div class="lyric-en">${line.en}</div>`;
-                    if (line.zh) content += `<div class="lyric-zh">${line.zh}</div>`;
+                    if (!song_Playing) playSong();
                     
-                    lyricItem.innerHTML = content;
-                    
-                    // 添加点击事件
-                    lyricItem.addEventListener('click', () => {
-                        // 切换到对应歌曲
-                        if (currentSongIndex !== index) {
-                            currentSongIndex = index;
-                            loadSong(songList[currentSongIndex]);
-                        }
-                        
-                        // 跳转到对应时间点
-                        if (line.time) {
-                            audio.currentTime = line.time;
-                            if (!song_Playing) playSong();
-                        }
-                        
-                        // 关闭弹窗
-                        closeAllModals();
-                    });
-                    
-                    lyricsList.appendChild(lyricItem);
+                    // 关闭弹窗
+                    closeAllModals();
                 });
+                
+                lyricsList.appendChild(lyricItem);
             }
         });
     }
@@ -959,44 +959,87 @@
         {
             path: "./music/1.mp3",
             songName: "One Summer's Day",
-            lines: [
-                { en: "The name of that river...", zh: "那条河的名字叫...", time: 10 },
-                { en: "It's called the Kohaku River.", zh: "它叫做琥珀川", time: 15 },
-                { en: "My name is Kohaku.", zh: "我的名字是琥珀", time: 20 },
-                { en: "It's nice to meet you.", zh: "很高兴认识你", time: 25 }
-            ]
+            en: "The name of that river..."
         },
         {
             path: "./music/2.mp3",
             songName: "The Sixth Station",
-            lines: [
-                { en: "Once you've met someone you never really forget them.", zh: "一旦相遇，就永远不会真正忘记", time: 30 },
-                { en: "It just takes a while for your memories to return.", zh: "只是需要一些时间让记忆回来", time: 40 }
-            ]
+            en: "Once you've met someone you never really forget them."
         },
         {
             path: "./music/3.mp3",
             songName: "The Bottomless Pit",
-            lines: [
-                { en: "Don't lose yourself!", zh: "不要迷失自己！", time: 20 },
-                { en: "Remember your name!", zh: "记住你的名字！", time: 35 }
-            ]
+            en: "Don't lose yourself!"
         },
         {
             path: "./music/4.mp3",
             songName: "Nighttime Coming",
-            lines: [
-                { en: "Once you do something, you never forget.", zh: "一旦做了某件事，就永远不会忘记", time: 15 },
-                { en: "Even if you can't remember.", zh: "即使你记不起来", time: 25 }
-            ]
+            en: "Once you do something, you never forget."
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            lines: [
-                { en: "I finally get a bouquet and it's a goodbye present.", zh: "我终于收到一束花，却是告别礼物", time: 10 },
-                { en: "That's depressing.", zh: "真令人沮丧", time: 20 }
-            ]
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I finally get a bouquet and it's a goodbye present."
         }
     ];
     let song_Playing = false;
@@ -1119,7 +1162,7 @@
             });
         });
     });
-    
+
     document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('watermarkContainer');
             const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
