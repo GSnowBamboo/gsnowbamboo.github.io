@@ -30,7 +30,9 @@
 ├── faq.txt
 ├── favicon.ico
 ├── img
-│   └── ball.png
+│   ├── ball.png
+│   ├── list-loop.svg
+│   └── single-loop.svg
 ├── index.html
 ├── music
 │   ├── 1.mp3
@@ -44,4 +46,4 @@
 ├── tip.md
 └── tree.txt
 
-7 directories, 37 files
+7 directories, 39 files

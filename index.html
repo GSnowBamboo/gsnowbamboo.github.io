@@ -230,27 +230,66 @@
             opacity: 0;
         }
 
+        /* 新增帮助按钮样式 */
+        .help-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #777;
+            box-shadow: inset 0 -5px 5px rgba(0,0,0,0.1),
+                        0 5px 10px rgba(0,0,0,0.1),
+                        0 10px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .help-btn:hover {
+            color: #38a7ff;
+            transform: scale(1.1);
+        }
+
+        .help-btn:active {
+            color: #ff669a;
+            box-shadow: inset 0 -7px 5px rgba(0,0,0,0.025),
+                        inset 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .help-btn ion-icon {
+            font-size: 1.5em;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <div class="player-container">
+            <!-- 添加帮助按钮 -->
+            <div class="help-btn" id="helpBtn">
+                <ion-icon name="help-circle-outline"></ion-icon>
+            </div>
+
             <div class="music">
-                <span>
-                    <ion-icon name="help-circle-outline"></ion-icon>
-                    <ion-icon name="color-wand-outline"></ion-icon>
-                    分析图表 原文, 成分
-                </span>
-                <h2 class="title"> Music Name</h2>
+                <div class="analyze">
+                    <span>
+                        分析图表 原文, 成分
+                        <h2 class="title"></h2>
+                    </span>
+                </div>
+
                 <div class="player">
                     <!-- 修改语言按钮 -->
                     <div class="language-btn" id="languageBtn">
                         <span class="language-text">en</span>
                     </div>
-                    <!-- <ion-icon name="musical-notes-outline"></ion-icon> -->
-                    <!-- <ion-icon name="play-back-circle-outline"></ion-icon> -->
-                    <!-- <ion-icon name="play-forward-circle-outline"></ion-icon> -->
-
+                    
                     <audio src=""></audio>
                     <div class="btns">
                         <span class="play-model" id="playModeBtn">
@@ -310,6 +349,7 @@
     const languageText = languageBtn.querySelector('.language-text');
     const playModeBtn = document.getElementById('playModeBtn');
     const playModeIcons = playModeBtn.querySelectorAll('ion-icon');
+    const helpBtn = document.getElementById('helpBtn');
     
     // 语言选项和状态
     const languageOptions = ['en', 'zh', 'en,zh'];
@@ -379,11 +419,19 @@
         }
     }
     
+    // 帮助按钮点击事件
+    function showHelp() {
+        alert('这里是帮助信息\n\n播放器功能说明：\n- 播放/暂停：控制音乐播放\n- 上一曲/下一曲：切换歌曲\n- 语言切换：更改界面语言\n- 播放模式：选择不同的播放循环方式');
+    }
+    
     // 添加语言切换事件
     languageBtn.addEventListener('click', toggleLanguage);
     
     // 添加播放模式切换事件
     playModeBtn.addEventListener('click', togglePlayMode);
+    
+    // 添加帮助按钮点击事件
+    helpBtn.addEventListener('click', showHelp);
     
     //first,we will create song list
     const songList = [
