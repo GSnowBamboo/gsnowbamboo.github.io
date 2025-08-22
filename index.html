@@ -43,6 +43,7 @@
             color: white;
             font-size: 24px;
             border-radius: 10px;
+            position: relative; /* 添加相对定位 */
         }
 
         .music {
@@ -51,6 +52,8 @@
             align-items: center;
             flex-direction: column;
             position: relative; /* 添加相对定位 */
+            height: 100%; /* 确保填充整个容器 */
+            width: 100%; /* 确保填充整个容器 */
         }
 
         .title {
@@ -73,7 +76,7 @@
                         10px 10px 15px rgba(0, 0, 0, 0.1),
                         inset -5px -5px 15px #fff,
                         inset 5px 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px; /* 添加底部外边距，为进度条腾出空间 */
+            /* 移除 margin-bottom，现在由绝对定位控制位置 */
         }
         .btns {
             position: relative;
@@ -121,11 +124,13 @@
             font-size: 2em;
         }
 
-        /* 修改进度条容器样式 */
+        /* 修改进度条容器样式 - 使用绝对定位靠近底部 */
         .progress-all {
-            position: relative;
+            position: absolute;
+            bottom: 0px; /* 距离底部40px */
+            left: 50%;
+            transform: translateX(-50%);
             width: 600px;
-            margin-top: 0; /* 移除原来的顶部间距 */
         }
         
         /* 新增进度条样式 */
@@ -183,7 +188,7 @@
                         </span>
                     </div>
                 </div>
-                <!-- 将进度条移动到播放器下方 -->
+                <!-- 进度条现在使用绝对定位靠近底部 -->
                 <div class="progress-all">
                     <!-- 新增进度条 -->
                     <div class="progress-container">
@@ -197,7 +202,7 @@
             </div>
         </div>
     </div>
-    <div class="version-info">v.0.0.5</div>
+    <div class="version-info">v.0.0.6</div>
     <!-- 更新版本号 -->
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
