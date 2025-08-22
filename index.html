@@ -13,7 +13,7 @@
         }
 
         body.dimmed {
-            filter: brightness(65%);
+            filter: brightness(100%);
         }
 
         .watermark-container {
@@ -404,7 +404,7 @@
             width: 80%;
             max-width: 900px;
             height: 70%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(235, 235, 235, 0.894);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 15px;
@@ -423,36 +423,26 @@
             visibility: visible;
             transform: translate(-50%, -50%) scale(1);
         }
-        
-        .lyrics-header {
+
+        .lyrics-modal span {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #fff;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .lyrics-title {
-            font-size: 1.5rem;
-            color: #38a7ff;
-            margin: 0;
-        }
-        
-        .close-lyrics {
-            background: none;
-            border: none;
-            font-size: 1.8rem;
             color: #777;
+            box-shadow: inset 0 -5px 5px rgba(0,0,0,0.1),
+                        0 5px 10px rgba(0,0,0,0.1),
+                        0 10px 15px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
         }
-        
-        .close-lyrics:hover {
-            color: #ff669a;
-        }
-        
+                
         .lyrics-content {
+            background-color: #ff669a;
             flex: 1;
             overflow-y: auto;
             padding-right: 10px;
@@ -493,14 +483,7 @@
             font-size: 1rem;
             color: #666;
         }
-        
-        .lyrics-footer {
-            margin-top: 20px;
-            text-align: center;
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
+                
         /* 遮罩层 */
         .overlay {
             position: fixed;
@@ -603,19 +586,13 @@
     
     <!-- 台词列表弹窗 -->
     <div class="lyrics-modal" id="lyricsModal">
-        <div class="lyrics-header">
-            <h2 class="lyrics-title">台词列表</h2>
-            <button class="close-lyrics" id="closeLyrics">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
-        </div>
+        <span class="my-lines">
+            <ion-icon name="reader-outline"></ion-icon>
+        </span>
         <div class="lyrics-content">
             <ul class="lyrics-list" id="lyricsList">
                 <!-- 台词内容将通过JavaScript动态添加 -->
             </ul>
-        </div>
-        <div class="lyrics-footer">
-            点击台词可以直接跳转到对应时间点
         </div>
     </div>
     
@@ -642,7 +619,6 @@
     const detailBtn = document.getElementById('detailBtn');
     const linesListBtn = document.getElementById('linesListBtn');
     const lyricsModal = document.getElementById('lyricsModal');
-    const closeLyrics = document.getElementById('closeLyrics');
     const lyricsList = document.getElementById('lyricsList');
     const overlay = document.getElementById('overlay');
     
@@ -811,10 +787,7 @@
     
     // 添加台词列表按钮点击事件
     linesListBtn.addEventListener('click', showLyricsList);
-    
-    // 添加关闭台词列表事件
-    closeLyrics.addEventListener('click', closeLyricsList);
-    
+        
     // 添加遮罩层点击事件（点击遮罩层也可以关闭弹窗）
     overlay.addEventListener('click', closeLyricsList);
     
