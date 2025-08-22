@@ -254,9 +254,10 @@
                     <audio src=""></audio>
                     <div class="btns">
                         <span class="play-model" id="playModeBtn">
-                            <ion-icon name="sync-outline" class="icon-hidden" data-mode="loop"></ion-icon>
-                            <ion-icon name="remove-outline" class="icon-hidden" data-mode="single"></ion-icon>
-                            <ion-icon name="reorder-three-outline" data-mode="list"></ion-icon>
+                            <ion-icon name="remove-outline" data-mode="single" ></ion-icon>
+                            <ion-icon name="sync-outline" data-mode="single-loop" class="icon-hidden"></ion-icon>
+                            <ion-icon name="reorder-three-outline" data-mode="list" class="icon-hidden"></ion-icon>
+                            <ion-icon name="sync-outline" data-mode="list-loop" class="icon-hidden"></ion-icon>
                         </span>
 
                         <span class="prev">
@@ -315,7 +316,7 @@
     let currentLanguageIndex = 0;
     
     // 播放模式选项和状态
-    const playModes = ['list', 'loop', 'single'];
+    const playModes = ['single', 'single-loop', 'list', 'list-loop'];
     let currentPlayModeIndex = 0;
     
     // 切换语言函数
@@ -340,6 +341,13 @@
         const currentIcon = Array.from(playModeIcons).find(icon => icon.getAttribute('data-mode') === currentMode);
         if (currentIcon) {
             currentIcon.classList.remove('icon-hidden');
+            if (currentMode === 'single-loop') {
+                let icon = Array.from(playModeIcons).find(icon => icon.getAttribute('data-mode') === 'single');
+                icon.classList.remove('icon-hidden');
+            } else if (currentMode === 'list-loop' ) {
+                let icon = Array.from(playModeIcons).find(icon => icon.getAttribute('data-mode') === 'list');
+                icon.classList.remove('icon-hidden');
+            }
         }
         
         // 可以根据选择的播放模式执行相应操作
@@ -352,20 +360,21 @@
     // 更新播放模式的实际功能
     function updatePlayMode(mode) {
         switch(mode) {
-            case 'list':
-                // 列表循环模式
-                audio.loop = false;
-                console.log("列表循环模式已启用");
-                break;
-            case 'loop':
-                // 单曲循环模式
-                audio.loop = true;
-                console.log("单曲循环模式已启用");
-                break;
             case 'single':
-                // 随机播放模式
+                // 单曲播放一次
                 audio.loop = false;
-                console.log("随机播放模式已启用");
+                break;
+            case 'single-loop':
+                // 单曲循环
+                audio.loop = false;
+                break;
+            case 'list':
+                // 列表播放一次
+                audio.loop = false;
+                break;
+            case 'list-loop':
+                // 列表循环
+                audio.loop = true;
                 break;
         }
     }

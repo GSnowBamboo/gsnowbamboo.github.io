@@ -1,0 +1,12 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" class="ionicon">
+
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" stroke-width="32" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="none" d="m434.67,285.59l0,-29.8c0,-98.73 -80.24,-178.79 -179.2,-178.79a179,179 0 0 0 -140.14,67.36m-38.53,82l0,29.8c0,98.84 80.2,178.84 179.2,178.84a180.45,180.45 0 0 0 140,-66.92"/>
+  <path id="svg_2" d="m32,256l44,-44l46,44m358,0l-44,44l-46,-44" stroke-width="32" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" fill="none"/>
+  <rect stroke="#000" id="svg_7" height="29" width="211.00001" y="209" x="149.49999" fill="#1A333F"/>
+  <rect stroke="#000" id="svg_11" height="29" width="211.00001" y="157" x="149.49999" fill="#1A333F"/>
+  <rect stroke="#000" id="svg_12" height="29" width="211.00001" y="263" x="149.49999" fill="#1A333F"/>
+  <rect stroke="#000" id="svg_13" height="29" width="211.00001" y="315" x="149.49999" fill="#1A333F"/>
+ </g>
+</svg>
