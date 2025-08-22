@@ -5,7 +5,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
         body {
-            background-color: #FFF5E6;
+            /* background-color: #FFF5E6; */
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
@@ -13,30 +13,31 @@
         
         .version-info {
             position: fixed;
-            left: 10px;
+            left: 50%;
             bottom: 10px;
             font-size: 14px;
             color: #666;
         }
 
         .container {
-            margin: 33px 66px 33px 66px; /*上 右 下 左*/
+            margin: 15px 15px 15px 15px; /*上 右 下 左*/
             padding: 20px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(46, 26, 26, 0.055);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-height: calc(100vh - 60px - 66px); /* 减去上下外边距总和 66px */
+            min-height: calc(100vh - 39px - 30px); /* 减去上下外边距总和 66px */
             display: flex;
             justify-content: center;
             align-items: center;
         }
         
         .player-container {
-            width: 900px;
-            height: 600px;
-            background-color: rgb(203, 230, 203); /* 后期删掉 */
+            margin: 90px;
+            width: 1300px;
+            height: 700px;
+            /* background: rgba(63, 18, 18, 0.668); */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -64,6 +65,35 @@
             text-align: center;
             margin-bottom: 20px;
         }
+        
+        /* 新增 detail-container 样式 */
+        .detail-container {
+            position: relative;
+            top: -15px;
+            width: 1200px;
+            margin: 0 5px 0px 5px; /* 上 右 下 左 - 底部5px间距 */
+            height: 550px;
+            padding: 0px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 5;
+            box-shadow: -10px -10px 15px #fff,
+                        10px 10px 15px rgba(0, 0, 0, 0.1),
+                        inset -5px -5px 15px #fff,
+                        inset 5px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .detail-container span {
+            font-size: 1.2em;
+            color: #555;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
         .player {
             position: relative;
             width: 600px;
@@ -77,7 +107,7 @@
                         inset -5px -5px 15px #fff,
                         inset 5px 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 5px; /* 减少底部间距到5px */
-            transform: translateY(153px); /* 播放器的位置高度 */
+            transform: translateY(1px); /* 播放器的位置高度 */
         }
         .btns {
             position: relative;
@@ -235,8 +265,8 @@
             position: absolute;
             top: 5px;
             right: 5px;
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             background: #fff;
             display: flex;
@@ -271,8 +301,8 @@
             position: absolute;
             top: 39px;
             right: 5px; /* 放在帮助按钮左侧 */
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
             background: #fff;
             display: flex;
@@ -370,9 +400,9 @@
                 </div>
             </div>
         </div>
+        <!-- 更新版本号 -->
+        <div class="version-info">v.0.0.9</div>
     </div>
-    <div class="version-info">v.0.0.9</div>
-    <!-- 更新版本号 -->
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
