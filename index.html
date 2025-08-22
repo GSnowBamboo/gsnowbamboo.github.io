@@ -424,8 +424,10 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
-        .lyrics-modal span {
-            position: relative;
+        .lyrics-modal .my-lines {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -439,41 +441,24 @@
                         0 10px 15px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: all 0.3s ease;
+            z-index: 1001; /* 确保在lyrics-content之上 */
         }
-
-        .lyrics-modal span:hover {
+        
+        .lyrics-modal .my-lines:hover {
             color: #38a7ff;
             transform: scale(1.1);
         }
         
-        .lyrics-modal span:active {
+        .lyrics-modal .my-lines:active {
             color: #ff669a;
             box-shadow: inset 0 -7px 5px rgba(0,0,0,0.025),
                         inset 0 5px 10px rgba(0,0,0,0.1);
         }
-        .lyrics-modal span:active,
-        .lyrics-modal span.active {
-            color: #ff669a;
-            box-shadow: inset 0 -7px 5px rgba(0, 0, 0, 0.025),
-                inset 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        .lyrics-modal span.playPause {
-            width: 60px;
-            height: 60px;
-        }
 
-        .lyrics-modal span ion-icon {
-            font-size: 1.5em;
-        }
-
-        .lyrics-modal span.playPause ion-icon {
-            font-size: 2em;
-        }
-                
         .lyrics-content {
-            background-color: #ff669a;
             flex: 1;
             overflow-y: auto;
+            margin: 5px; /* 添加5px边距 */
             padding-right: 10px;
         }
         
