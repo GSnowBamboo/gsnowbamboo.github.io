@@ -9,6 +9,11 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            transition: filter 0.5s ease;
+        }
+
+        body.dimmed {
+            filter: brightness(65%);
         }
 
         .watermark-container {
@@ -32,23 +37,29 @@
             padding: 10px;
         }
         
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
         .version-info {
             position: fixed;
             left: 50%;
             bottom: 10px;
             font-size: 14px;
             color: #666;
+            transform: translateX(-50%);
         }
 
         .container {
-            margin: 15px 15px 15px 15px; /*上 右 下 左*/
+            margin: 15px;
             padding: 10px;
             background: rgba(55, 37, 37, 0.055);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-height: calc(100vh - 30px - 30px); /* 减去上下外边距总和 66px */
+            min-height: calc(100vh - 50px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -58,7 +69,6 @@
             margin: 90px;
             width: 1300px;
             height: 700px;
-            /* background: rgba(63, 18, 18, 0.668); */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -87,7 +97,6 @@
             margin-bottom: 20px;
         }
         
-        /* 新增 detail-container 样式 */
         .detail-container {
             position: relative;
             top: -15px;
@@ -120,7 +129,6 @@
             height: 450px;
             width: 1150px;
             border-radius: 10px;
-            /* background-color: #a0474745; */
         }
 
         /* 分割线样式 */
@@ -140,7 +148,6 @@
             height: 65px;
             width: 1150px;
             border-radius: 10px;
-            /* background-color: #a0474745; */
         }
         
         .player {
@@ -179,7 +186,14 @@
                         0 5px 10px rgba(0,0,0,0.1),
                         0 10px 15px rgba(0,0,0,0.1);
             cursor: pointer;
+            transition: all 0.3s ease;
         }
+        
+        .btns span:hover {
+            color: #38a7ff;
+            transform: scale(1.1);
+        }
+        
         .btns span:active {
             color: #ff669a;
             box-shadow: inset 0 -7px 5px rgba(0,0,0,0.025),
@@ -380,7 +394,132 @@
         .detail-btn ion-icon {
             font-size: 1.5em;
         }
-
+        
+        /* 台词列表弹窗样式 */
+        .lyrics-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 80%;
+            max-width: 900px;
+            height: 70%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 25px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .lyrics-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .lyrics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .lyrics-title {
+            font-size: 1.5rem;
+            color: #38a7ff;
+            margin: 0;
+        }
+        
+        .close-lyrics {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #777;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-lyrics:hover {
+            color: #ff669a;
+        }
+        
+        .lyrics-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .lyrics-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .lyric-item {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: rgba(240, 240, 240, 0.7);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .lyric-item:hover {
+            background: rgba(56, 167, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .lyric-item.active {
+            background: rgba(56, 167, 255, 0.2);
+            border-left: 4px solid #38a7ff;
+        }
+        
+        .lyric-en {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .lyric-zh {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .lyrics-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 遮罩层 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
@@ -440,7 +579,7 @@
                         </span>
 
                         <!-- 台词列表 -->
-                        <span class="lines-list">
+                        <span class="lines-list" id="linesListBtn">
                             <ion-icon name="list-outline"></ion-icon>
                         </span>
                     </div>
@@ -459,8 +598,29 @@
             </div>
         </div>
         <!-- 更新版本号 -->
-        <div class="version-info">v.0.0.9</div>
+        <div class="version-info">v.0.1.0</div>
     </div>
+    
+    <!-- 台词列表弹窗 -->
+    <div class="lyrics-modal" id="lyricsModal">
+        <div class="lyrics-header">
+            <h2 class="lyrics-title">台词列表</h2>
+            <button class="close-lyrics" id="closeLyrics">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
+        <div class="lyrics-content">
+            <ul class="lyrics-list" id="lyricsList">
+                <!-- 台词内容将通过JavaScript动态添加 -->
+            </ul>
+        </div>
+        <div class="lyrics-footer">
+            点击台词可以直接跳转到对应时间点
+        </div>
+    </div>
+    
+    <!-- 遮罩层 -->
+    <div class="overlay" id="overlay"></div>
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -479,7 +639,12 @@
     const playModeBtn = document.getElementById('playModeBtn');
     const playModeIcons = playModeBtn.querySelectorAll('ion-icon');
     const helpBtn = document.getElementById('helpBtn');
-    const detailBtn = document.getElementById('detailBtn'); // 获取详细信息按钮
+    const detailBtn = document.getElementById('detailBtn');
+    const linesListBtn = document.getElementById('linesListBtn');
+    const lyricsModal = document.getElementById('lyricsModal');
+    const closeLyrics = document.getElementById('closeLyrics');
+    const lyricsList = document.getElementById('lyricsList');
+    const overlay = document.getElementById('overlay');
     
     // 语言选项和状态
     const languageOptions = ['en', 'zh', 'en,zh'];
@@ -551,13 +716,85 @@
     
     // 帮助按钮点击事件
     function showHelp() {
-        alert('这里是帮助信息\n\n播放器功能说明：\n- 播放/暂停：控制音乐播放\n- 上一曲/下一曲：切换歌曲\n- 语言切换：更改界面语言\n- 播放模式：选择不同的播放循环方式');
+        alert('这里是帮助信息\n\n播放器功能说明：\n- 播放/暂停：控制音乐播放\n- 上一曲/下一曲：切换歌曲\n- 语言切换：更改界面语言\n- 播放模式：选择不同的播放循环方式\n- 台词列表：查看和管理所有歌曲的台词');
     }
     
     // 详细信息按钮点击事件
     function showDetails() {
         const currentSong = songList[currentSongIndex];
         alert(`歌曲详细信息：\n\n歌曲名称：${currentSong.songName}\n文件路径：${currentSong.path}\n当前播放模式：${playModes[currentPlayModeIndex]}\n当前语言：${languageOptions[currentLanguageIndex]}`);
+    }
+    
+    // 显示台词列表
+    function showLyricsList() {
+        // 降低页面亮度
+        document.body.classList.add('dimmed');
+        
+        // 显示遮罩层和弹窗
+        overlay.classList.add('active');
+        lyricsModal.classList.add('active');
+        
+        // 填充台词列表
+        populateLyricsList();
+    }
+    
+    // 关闭台词列表
+    function closeLyricsList() {
+        // 恢复页面亮度
+        document.body.classList.remove('dimmed');
+        
+        // 隐藏遮罩层和弹窗
+        overlay.classList.remove('active');
+        lyricsModal.classList.remove('active');
+    }
+    
+    // 填充台词列表
+    function populateLyricsList() {
+        lyricsList.innerHTML = '';
+        
+        // 为每首歌添加台词
+        songList.forEach((song, index) => {
+            const songHeader = document.createElement('li');
+            songHeader.className = 'lyric-item';
+            songHeader.innerHTML = `<div class="lyric-en"><strong>${song.songName}</strong></div>`;
+            lyricsList.appendChild(songHeader);
+            
+            // 添加该歌曲的所有台词
+            if (song.lines && song.lines.length > 0) {
+                song.lines.forEach((line, lineIndex) => {
+                    const lyricItem = document.createElement('li');
+                    lyricItem.className = 'lyric-item';
+                    lyricItem.dataset.songIndex = index;
+                    lyricItem.dataset.lineIndex = lineIndex;
+                    
+                    let content = '';
+                    if (line.en) content += `<div class="lyric-en">${line.en}</div>`;
+                    if (line.zh) content += `<div class="lyric-zh">${line.zh}</div>`;
+                    
+                    lyricItem.innerHTML = content;
+                    
+                    // 添加点击事件
+                    lyricItem.addEventListener('click', () => {
+                        // 切换到对应歌曲
+                        if (currentSongIndex !== index) {
+                            currentSongIndex = index;
+                            loadSong(songList[currentSongIndex]);
+                        }
+                        
+                        // 跳转到对应时间点
+                        if (line.time) {
+                            audio.currentTime = line.time;
+                            if (!song_Playing) playSong();
+                        }
+                        
+                        // 关闭弹窗
+                        closeLyricsList();
+                    });
+                    
+                    lyricsList.appendChild(lyricItem);
+                });
+            }
+        });
     }
     
     // 添加语言切换事件
@@ -572,27 +809,58 @@
     // 添加详细信息按钮点击事件
     detailBtn.addEventListener('click', showDetails);
     
+    // 添加台词列表按钮点击事件
+    linesListBtn.addEventListener('click', showLyricsList);
+    
+    // 添加关闭台词列表事件
+    closeLyrics.addEventListener('click', closeLyricsList);
+    
+    // 添加遮罩层点击事件（点击遮罩层也可以关闭弹窗）
+    overlay.addEventListener('click', closeLyricsList);
+    
     //first,we will create song list
     const songList = [
         {
             path: "./music/1.mp3",
-            songName: "name 1",
+            songName: "One Summer's Day",
+            lines: [
+                { en: "The name of that river...", zh: "那条河的名字叫...", time: 10 },
+                { en: "It's called the Kohaku River.", zh: "它叫做琥珀川", time: 15 },
+                { en: "My name is Kohaku.", zh: "我的名字是琥珀", time: 20 },
+                { en: "It's nice to meet you.", zh: "很高兴认识你", time: 25 }
+            ]
         },
         {
             path: "./music/2.mp3",
-            songName: "name 2",
+            songName: "The Sixth Station",
+            lines: [
+                { en: "Once you've met someone you never really forget them.", zh: "一旦相遇，就永远不会真正忘记", time: 30 },
+                { en: "It just takes a while for your memories to return.", zh: "只是需要一些时间让记忆回来", time: 40 }
+            ]
         },
         {
             path: "./music/3.mp3",
-            songName: "name 3",
+            songName: "The Bottomless Pit",
+            lines: [
+                { en: "Don't lose yourself!", zh: "不要迷失自己！", time: 20 },
+                { en: "Remember your name!", zh: "记住你的名字！", time: 35 }
+            ]
         },
         {
             path: "./music/4.mp3",
-            songName: "name 4",
+            songName: "Nighttime Coming",
+            lines: [
+                { en: "Once you do something, you never forget.", zh: "一旦做了某件事，就永远不会忘记", time: 15 },
+                { en: "Even if you can't remember.", zh: "即使你记不起来", time: 25 }
+            ]
         },
         {
             path: "./music/5.mp3",
-            songName: "name 5",
+            songName: "Dragon Boy",
+            lines: [
+                { en: "I finally get a bouquet and it's a goodbye present.", zh: "我终于收到一束花，却是告别礼物", time: 10 },
+                { en: "That's depressing.", zh: "真令人沮丧", time: 20 }
+            ]
         }
     ];
     let song_Playing = false;
@@ -637,8 +905,7 @@
     //play or pause song on click
     playPause.addEventListener("click", () => (song_Playing ? pauseSong() : playSong()));
 
-    //next song
-
+    //prev song
     function prevSong(){
         currentSongIndex--;
         if (currentSongIndex < 0 ){
@@ -649,6 +916,7 @@
     }
     prev.addEventListener("click", prevSong);
 
+    //next song
     function nextSong(){
         currentSongIndex++;
         if (currentSongIndex > songList.length - 1){
