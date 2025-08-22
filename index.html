@@ -11,6 +11,14 @@
             font-family: Arial, sans-serif;
         }
         
+        .version-info {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
         .container {
             margin: 33px 66px 33px 66px; /*上 右 下 左*/
             padding: 20px;
@@ -56,7 +64,7 @@
             position: relative;
             margin-bottom: -300px;
             width: 600px;
-            min-height: 30px;
+            min-height: 50px;
             background: #fbfbfb;
             border: 2px solid #fff;
             border-radius: 80px;
@@ -75,8 +83,8 @@
         }
         .btns span {
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: #fff;
             display: flex;
@@ -99,24 +107,49 @@
                 inset 0 5px 10px rgba(0, 0, 0, 0.15);
         }
         .btns span.playPause {
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
         }
 
         .btns span ion-icon {
-            font-size: 2em;
+            font-size: 1.5em;
         }
 
         .btns span.playPause ion-icon {
-            font-size: 3em;
+            font-size: 2em;
         }
-        .version-info {
-            position: fixed;
-            left: 10px;
-            bottom: 10px;
+
+        .progress-all {
+            position: relative;
+            width: 600px;
+        }
+        /* 新增进度条样式 */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #38a7ff;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.1s ease;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            color: #777;
             font-size: 14px;
-            color: #666;
         }
+
     </style>
 </head>
 <body>
@@ -145,6 +178,16 @@
                         </span>
                     </div>
                 </div>
+                <div class="progress-all">
+                    <!-- 新增进度条 -->
+                    <div class="progress-container">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span>
+                        <span class="duration">0:00</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -159,7 +202,10 @@
     const playPause = document.querySelector('.playPause');
     const next = document.querySelector('.next');
     const audio = document.querySelector('audio');
-
+    const progressContainer = document.querySelector('.progress-container');
+    const progress = document.querySelector('.progress');
+    const currentTimeEl = document.querySelector('.current-time');
+    const durationEl = document.querySelector('.duration');
     //first,we will create song list
     const songList = [
         {
@@ -184,6 +230,26 @@
         }
     ];
     let song_Playing = false;
+    let currentSongIndex = 0;
+
+    //load song
+    function loadSong(songList) {
+        title.textContent = songList.songName;
+        playPause.addEventListener; 
+        audio.src = songList.path;
+
+        // 重置进度条
+        progress.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+
+        // 当元数据加载完成后更新总时长
+        audio.addEventListener('loadedmetadata', function() {
+            const duration = audio.duration;
+            const minutes = Math.floor(duration / 60);
+            const seconds = Math.floor(duration % 60);
+            durationEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        });
+    }
 
     //play song
     function playSong(){
@@ -205,13 +271,6 @@
 
     //play or pause song on click
     playPause.addEventListener("click", () => (song_Playing ? pauseSong() : playSong()));
-
-    //load song
-    function loadSong(songList) {
-        title.textContent = songList.songName;
-        playPause.addEventListener; 
-        audio.src = songList.path;
-    }
 
     //next song
     let i = 0
@@ -237,5 +296,30 @@
     }
     next.addEventListener("click", nextSong);
 
+    // 更新进度条
+    function updateProgress(e) {
+        const { duration, currentTime } = e.srcElement;
+        if (duration) {
+            const progressPercent = (currentTime / duration) * 100;
+            progress.style.width = `${progressPercent}%`;
+            
+            // 更新当前时间显示
+            const currentMinutes = Math.floor(currentTime / 60);
+            const currentSeconds = Math.floor(currentTime % 60);
+            currentTimeEl.textContent = `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds}`;
+        }
+    }
+    
+    // 设置进度条
+    function setProgress(e) {
+        const width = this.clientWidth;
+        const clickX = e.offsetX;
+        const duration = audio.duration;
+        audio.currentTime = (clickX / width) * duration;
+    }
+
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', nextSong); // 歌曲结束时自动播放下一首
+    // audio.addEventListener('ended', pauseSong); // 歌曲结束时直接结束
 </script>
 </html>
