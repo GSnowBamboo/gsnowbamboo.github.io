@@ -3,6 +3,113 @@
 <head>
     <title>千与千寻</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+        body {
+            background-color: #FFF5E6;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            margin: 33px 66px 33px 66px; /*上 右 下 左*/
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 60px - 66px); /* 减去上下外边距总和 66px */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .player-container {
+            width: 900px;
+            height: 600px;
+            background-color: rgb(203, 230, 203); /* 后期删掉 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            border-radius: 10px;
+        }
+
+        .music {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .title {
+            font-weight: 400;
+            font-size: 2em;
+            color: #38a7ff;
+            display: inline-flex;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .player {
+            position: relative;
+            margin-bottom: -300px;
+            width: 600px;
+            min-height: 30px;
+            background: #fbfbfb;
+            border: 2px solid #fff;
+            border-radius: 80px;
+            padding: 20px 30px;
+            box-shadow: -10px -10px 15px #fff,
+                        10px 10px 15px rgba(0, 0, 0, 0.1),
+                        inset -5px -5px 15px #fff,
+                        inset 5px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .btns {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .btns span {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #777;
+            box-shadow: inset 0 -5px 5px rgba(0,0,0,0.1),
+                        0 5px 10px rgba(0,0,0,0.1),
+                        0 10px 15px rgba(0,0,0,0.1);
+        }
+        .btns span:active {
+            color: #ff669a;
+            box-shadow: inset 0 -7px 5px rgba(0,0,0,0.025),
+                        inset 0 5px 10px rgba(0,0,0,0.1);
+        }
+        .btns span:active,
+        .btns span.active {
+            color: #ff669a;
+            box-shadow: inset 0 -7px 5px rgba(0, 0, 0, 0.025),
+                inset 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        .btns span.playPause {
+            width: 100px;
+            height: 100px;
+        }
+
+        .btns span ion-icon {
+            font-size: 2em;
+        }
+
+        .btns span.playPause ion-icon {
+            font-size: 3em;
+        }
         .version-info {
             position: fixed;
             left: 10px;
@@ -12,9 +119,123 @@
         }
     </style>
 </head>
-<body style="background-color: #FFF5E6;">
-    千与千寻
-    <div class="version-info">v.0.02</div>
-    <!-- v.0.02 -->
+<body>
+    <div class="container">
+        <div class="player-container">
+            <div class="music">
+                <h2 class="title"> Music Name</h2>
+                <div class="player">
+                    <audio src=""></audio>
+                    <div class="btns">
+                        <!-- <ion-icon name="musical-notes-outline"></ion-icon> -->
+                        <!-- <ion-icon name="play-back-circle-outline"></ion-icon> -->
+                        <!-- <ion-icon name="play-back-circle-outline"></ion-icon> -->
+                        <!-- <ion-icon name="play-forward-circle-outline"></ion-icon> -->
+                        <!-- <ion-icon name="play-skip-back-outline"></ion-icon> -->
+                        <!-- <ion-icon name="play-skip-forward-outline"></ion-icon> -->
+
+                        <span class="prev">
+                            <ion-icon name="play-back-outline"></ion-icon>
+                        </span>
+                        <span class="playPause">
+                            <ion-icon name="play-outline"></ion-icon>
+                        </span>
+                        <span class="next">
+                            <ion-icon name="play-forward-outline"></ion-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="version-info">v.0.0.4</div>
+    <!-- v.0.0.4 -->
 </body>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+    const title = document.querySelector('.title');
+    const prev = document.querySelector('.prev');
+    const playPause = document.querySelector('.playPause');
+    const next = document.querySelector('.next');
+    const audio = document.querySelector('audio');
+
+    //first,we will create song list
+    const songList = [
+        {
+            path: "./music/1.mp3",
+            songName: "name 1",
+        },
+        {
+            path: "./music/2.mp3",
+            songName: "name 2",
+        },
+        {
+            path: "./music/3.mp3",
+            songName: "name 3",
+        },
+        {
+            path: "./music/4.mp3",
+            songName: "name 4",
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "name 5",
+        }
+    ];
+    let song_Playing = false;
+
+    //play song
+    function playSong(){
+        song_Playing = true;
+        audio.play();
+        playPause.classList.add('active');
+        //change icon
+        playPause.innerHTML = '<ion-icon name="pause-outline"></ion-icon>';
+    }
+
+    //pause song
+    function pauseSong(){
+        song_Playing = false;
+        audio.pause();
+        playPause.classList.remove('active');
+        //change icon
+        playPause.innerHTML = '<ion-icon name="play-outline"></ion-icon>';
+    }
+
+    //play or pause song on click
+    playPause.addEventListener("click", () => (song_Playing ? pauseSong() : playSong()));
+
+    //load song
+    function loadSong(songList) {
+        title.textContent = songList.songName;
+        playPause.addEventListener; 
+        audio.src = songList.path;
+    }
+
+    //next song
+    let i = 0
+    loadSong(songList[i])
+
+    function prevSong(){
+        i--;
+        if (i < 0 ){
+            i = songList.length - 1;
+        }
+        loadSong(songList[i]);
+        playSong();
+    }
+    prev.addEventListener("click", prevSong);
+
+    function nextSong(){
+        i++;
+        if (i > songList.length - 1){
+            i = 0;
+        }
+        loadSong(songList[i]);
+        playSong();
+    }
+    next.addEventListener("click", nextSong);
+
+</script>
 </html>
