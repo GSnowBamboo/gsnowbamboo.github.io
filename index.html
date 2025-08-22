@@ -77,7 +77,7 @@
                         inset -5px -5px 15px #fff,
                         inset 5px 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 5px; /* 减少底部间距到5px */
-            transform: translateY(169px); /* 向上移动5px */
+            transform: translateY(153px); /* 播放器的位置高度 */
         }
         .btns {
             position: relative;
@@ -167,25 +167,40 @@
     <div class="container">
         <div class="player-container">
             <div class="music">
+                <span>
+                    <ion-icon name="help-circle-outline"></ion-icon>
+                    <ion-icon name="megaphone-outline"></ion-icon>
+                    en zh en,zh
+                    <ion-icon name="color-wand-outline"></ion-icon>
+                    分析图表 原文, 成分
+                </span>
                 <h2 class="title"> Music Name</h2>
                 <div class="player">
                     <audio src=""></audio>
                     <div class="btns">
                         <!-- <ion-icon name="musical-notes-outline"></ion-icon> -->
                         <!-- <ion-icon name="play-back-circle-outline"></ion-icon> -->
-                        <!-- <ion-icon name="play-back-circle-outline"></ion-icon> -->
                         <!-- <ion-icon name="play-forward-circle-outline"></ion-icon> -->
-                        <!-- <ion-icon name="play-skip-back-outline"></ion-icon> -->
-                        <!-- <ion-icon name="play-skip-forward-outline"></ion-icon> -->
+                        <span>
+                            <ion-icon name="sync-outline"></ion-icon>
+                            <ion-icon name="remove-outline"></ion-icon>
+                            <ion-icon name="reorder-three-outline"></ion-icon>
+                        </span>
 
                         <span class="prev">
                             <ion-icon name="play-back-outline"></ion-icon>
                         </span>
+
                         <span class="playPause">
                             <ion-icon name="play-outline"></ion-icon>
                         </span>
+                        
                         <span class="next">
                             <ion-icon name="play-forward-outline"></ion-icon>
+                        </span>
+
+                        <span>
+                            <ion-icon name="list-outline"></ion-icon>
                         </span>
                     </div>
                 </div>
