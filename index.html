@@ -10,6 +10,27 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+
+        .watermark-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .watermark {
+            position: absolute;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(0, 0, 0, 0.07);
+            animation: float 25s infinite ease-in-out;
+            user-select: none;
+            padding: 10px;
+        }
         
         .version-info {
             position: fixed;
@@ -364,6 +385,7 @@
 </head>
 <body>
     <div class="container">
+        <div class="watermark-container" id="watermarkContainer"></div>
         <div class="player-container">
             <!-- 添加详细信息按钮 -->
             <div class="detail-btn" id="detailBtn">
@@ -665,5 +687,109 @@
 
     // 初始化加载第一首歌
     loadSong(songList[currentSongIndex]);
+
+    document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('watermarkContainer');
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            let density = 77; // 中等密度
+            let placedLetters = []; // 存储已放置字母的信息
+            
+            // 创建水印
+            function createWatermarks() {
+                container.innerHTML = '';
+                placedLetters = [];
+                const { width, height } = container.getBoundingClientRect();
+                const maxAttempts = 100; // 每个字母的最大尝试次数
+                
+                for (let i = 0; i < density; i++) {
+                    const watermark = document.createElement('div');
+                    watermark.className = 'watermark';
+                    const letter = letters[Math.floor(Math.random() * letters.length)];
+                    watermark.textContent = letter;
+                    
+                    // 随机大小
+                    const size = Math.random() * 7;
+                    watermark.style.fontSize = `${size}rem`;
+                    
+                    // 随机旋转
+                    const rotate = Math.random() * 30 - 15;
+                    watermark.style.transform = `rotate(${rotate}deg)`;
+                    
+                    // 随机动画延迟
+                    const delay = Math.random() * 20;
+                    watermark.style.animationDelay = `${delay}s`;
+                                        
+                    // 估算字母尺寸（添加边距）
+                    const letterWidth = size * 20 + 40; // 近似宽度
+                    const letterHeight = size * 20 + 40; // 近似高度
+                    
+                    // 尝试找到不重叠的位置
+                    let placed = false;
+                    let attempts = 0;
+                    
+                    while (!placed && attempts < maxAttempts) {
+                        attempts++;
+                        
+                        // 随机位置
+                        const left = Math.random() * (width - letterWidth);
+                        const top = Math.random() * (height - letterHeight);
+                        
+                        // 检查是否与已放置字母重叠
+                        const overlaps = checkOverlap(left, top, letterWidth, letterHeight);
+                        
+                        if (!overlaps) {
+                            // 位置有效，放置字母
+                            watermark.style.left = `${left}px`;
+                            watermark.style.top = `${top}px`;
+                            container.appendChild(watermark);
+                            
+                            // 存储字母信息用于后续碰撞检测
+                            placedLetters.push({
+                                left,
+                                top,
+                                right: left + letterWidth,
+                                bottom: top + letterHeight
+                            });
+                            
+                            placed = true;
+                        }
+                    }
+                    
+                    // 如果尝试多次仍找不到位置，跳过这个字母
+                    if (!placed) {
+                        console.log(`无法放置字母 ${letter}，跳过`);
+                    }
+                }
+            }
+            
+            // 检查是否与已放置字母重叠
+            function checkOverlap(left, top, width, height) {
+                const right = left + width;
+                const bottom = top + height;
+                
+                // 检查边界
+                if (right > container.clientWidth || bottom > container.clientHeight) {
+                    return true;
+                }
+                
+                // 检查与已放置字母的重叠
+                for (const placed of placedLetters) {
+                    if (!(right < placed.left || 
+                          left > placed.right || 
+                          bottom < placed.top || 
+                          top > placed.bottom)) {
+                        return true; // 重叠
+                    }
+                }
+                
+                return false; // 不重叠
+            }
+            
+            // 初始化水印
+            createWatermarks();
+            
+            // 调整窗口大小时重新创建水印
+            window.addEventListener('resize', createWatermarks);
+        });
 </script>
 </html>
