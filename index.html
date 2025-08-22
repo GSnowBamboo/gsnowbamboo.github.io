@@ -5,7 +5,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
         body {
-            /* background-color: #FFF5E6; */
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
@@ -75,7 +74,7 @@
             color: white;
             font-size: 24px;
             border-radius: 10px;
-            position: relative; /* 添加相对定位 */
+            position: relative;
         }
 
         .music {
@@ -83,9 +82,9 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            position: relative; /* 添加相对定位 */
-            height: 100%; /* 确保填充整个容器 */
-            width: 100%; /* 确保填充整个容器 */
+            position: relative;
+            height: 100%;
+            width: 100%;
         }
 
         .title {
@@ -101,7 +100,7 @@
             position: relative;
             top: -15px;
             width: 1200px;
-            margin: 0 5px 0px 5px; /* 上 右 下 左 - 底部5px间距 */
+            margin: 0 5px 0px 5px;
             height: 550px;
             padding: 0px;
             background: rgba(255, 255, 255, 0.8);
@@ -125,13 +124,12 @@
         }
         .language-en {
             position: relative;
-            margin: 10px 10px 10px 25px; /* 上 右 下 左 - 底部5px间距 */
+            margin: 10px 10px 10px 25px;
             height: 450px;
             width: 1150px;
             border-radius: 10px;
         }
 
-        /* 分割线样式 */
         .language-line {
             width: 1150px;
             margin: 0px 10px 0px 25px;
@@ -144,7 +142,7 @@
 
         .language-zh {
             position: relative;
-            margin: 10px 10px 10px 25px; /* 上 右 下 左 - 底部5px间距 */
+            margin: 10px 10px 10px 25px;
             height: 65px;
             width: 1150px;
             border-radius: 10px;
@@ -162,8 +160,8 @@
                         10px 10px 15px rgba(0, 0, 0, 0.1),
                         inset -5px -5px 15px #fff,
                         inset 5px 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 5px; /* 减少底部间距到5px */
-            transform: translateY(1px); /* 播放器的位置高度 */
+            margin-bottom: 5px;
+            transform: translateY(1px);
         }
         .btns {
             position: relative;
@@ -218,16 +216,14 @@
             font-size: 2em;
         }
 
-        /* 修改进度条容器样式 - 使用绝对定位靠近底部 */
         .progress-all {
             position: absolute;
-            bottom: 0px; /* 距离底部40px */
+            bottom: 0px;
             left: 50%;
             transform: translateX(-50%);
             width: 588px;
         }
         
-        /* 新增进度条样式 */
         .progress-container {
             width: 100%;
             height: 6px;
@@ -254,7 +250,6 @@
             font-size: 14px;
         }
 
-        /* 修改语言按钮样式 */
         .language-btn {
             position: absolute;
             top: -11px;
@@ -297,7 +292,6 @@
             font-weight: 500;
         }
 
-        /* 播放模式按钮样式 */
         .play-model {
             position: relative;
             width: 50px;
@@ -323,7 +317,6 @@
             opacity: 0;
         }
 
-        /* 新增帮助按钮样式 */
         .help-btn {
             position: absolute;
             top: 5px;
@@ -359,11 +352,10 @@
             font-size: 1.5em;
         }
 
-        /* 新增详细信息按钮样式 */
         .detail-btn {
             position: absolute;
             top: 39px;
-            right: 5px; /* 放在帮助按钮左侧 */
+            right: 5px;
             width: 25px;
             height: 25px;
             border-radius: 50%;
@@ -395,7 +387,77 @@
             font-size: 1.5em;
         }
         
-        /* 台词列表弹窗样式 */
+        /* 新增弹窗样式 */
+        .help-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 50%;
+            max-width: 500px;
+            height: auto;
+            background: rgba(235, 235, 235, 0.894);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .help-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-content {
+            text-align: center;
+            color: #555;
+            font-size: 1.2rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #777;
+            box-shadow: inset 0 -5px 5px rgba(0,0,0,0.1),
+                        0 5px 10px rgba(0,0,0,0.1),
+                        0 10px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            color: #38a7ff;
+            transform: scale(1.1);
+        }
+        
+        .modal-close:active {
+            color: #ff669a;
+            box-shadow: inset 0 -7px 5px rgba(0,0,0,0.025),
+                        inset 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .modal-close ion-icon {
+            font-size: 1.5em;
+        }
+
         .lyrics-modal {
             position: fixed;
             top: 50%;
@@ -455,15 +517,14 @@
                         inset 0 5px 10px rgba(0,0,0,0.1);
         }
         
-        /* 调整图表图标大小 */
         .lyrics-modal .my-lines ion-icon {
-            font-size: 2em; /* 从默认大小增加到2.5em */
+            font-size: 2em;
         }
 
         .lyrics-content {
             flex: 1;
             overflow-y: auto;
-            margin: 5px; /* 添加5px边距 */
+            margin: 5px;
             padding-right: 10px;
         }
         
@@ -603,6 +664,17 @@
         <div class="version-info">v.0.1.0</div>
     </div>
     
+    <!-- 新增帮助弹窗 -->
+    <div class="help-modal" id="helpModal">
+        <span class="modal-close" id="helpModalClose">
+            <ion-icon name="close-outline"></ion-icon>
+        </span>
+        <div class="modal-content">
+            <!-- 不需要添加任何内容 -->
+             帮助信息, 图文解说界面功能
+        </div>
+    </div>
+    
     <!-- 台词列表弹窗 -->
     <div class="lyrics-modal" id="lyricsModal">
         <span class="my-lines">
@@ -621,6 +693,7 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
+    // 获取元素
     const title = document.querySelector('.title');
     const prev = document.querySelector('.prev');
     const playPause = document.querySelector('.playPause');
@@ -641,6 +714,11 @@
     const lyricsList = document.getElementById('lyricsList');
     const overlay = document.getElementById('overlay');
     const myLines = document.querySelector('.my-lines');
+    
+    // 新增弹窗元素
+    const detailModal = document.getElementById('detailModal');
+    const helpModal = document.getElementById('helpModal');
+    const helpModalClose = document.getElementById('helpModalClose');
     
     // 语言选项和状态
     const languageOptions = ['en', 'zh', 'en,zh'];
@@ -710,15 +788,30 @@
         }
     }
     
-    // 帮助按钮点击事件
-    function showHelp() {
-        alert('这里是帮助信息\n\n播放器功能说明：\n- 播放/暂停：控制音乐播放\n- 上一曲/下一曲：切换歌曲\n- 语言切换：更改界面语言\n- 播放模式：选择不同的播放循环方式\n- 台词列表：查看和管理所有歌曲的台词');
+    // 显示详细信息弹窗
+    function showDetailModal() {
+        console.log('showDetailModal')
     }
     
-    // 详细信息按钮点击事件
-    function showDetails() {
-        const currentSong = songList[currentSongIndex];
-        alert(`歌曲详细信息：\n\n歌曲名称：${currentSong.songName}\n文件路径：${currentSong.path}\n当前播放模式：${playModes[currentPlayModeIndex]}\n当前语言：${languageOptions[currentLanguageIndex]}`);
+    // 显示帮助弹窗
+    function showHelpModal() {
+        // 降低页面亮度
+        document.body.classList.add('dimmed');
+        
+        // 显示遮罩层和弹窗
+        overlay.classList.add('active');
+        helpModal.classList.add('active');
+    }
+    
+    // 关闭所有弹窗
+    function closeAllModals() {
+        // 恢复页面亮度
+        document.body.classList.remove('dimmed');
+        
+        // 隐藏遮罩层和所有弹窗
+        overlay.classList.remove('active');
+        helpModal.classList.remove('active');
+        lyricsModal.classList.remove('active');
     }
     
     // 显示台词列表
@@ -732,16 +825,6 @@
         
         // 填充台词列表
         populateLyricsList();
-    }
-    
-    // 关闭台词列表
-    function closeLyricsList() {
-        // 恢复页面亮度
-        document.body.classList.remove('dimmed');
-        
-        // 隐藏遮罩层和弹窗
-        overlay.classList.remove('active');
-        lyricsModal.classList.remove('active');
     }
     
     // 填充台词列表
@@ -784,7 +867,7 @@
                         }
                         
                         // 关闭弹窗
-                        closeLyricsList();
+                        closeAllModals();
                     });
                     
                     lyricsList.appendChild(lyricItem);
@@ -800,16 +883,19 @@
     playModeBtn.addEventListener('click', togglePlayMode);
     
     // 添加帮助按钮点击事件
-    helpBtn.addEventListener('click', showHelp);
+    helpBtn.addEventListener('click', showHelpModal);
     
     // 添加详细信息按钮点击事件
-    detailBtn.addEventListener('click', showDetails);
+    detailBtn.addEventListener('click', showDetailModal);
     
     // 添加台词列表按钮点击事件
     linesListBtn.addEventListener('click', showLyricsList);
         
     // 添加遮罩层点击事件（点击遮罩层也可以关闭弹窗）
-    overlay.addEventListener('click', closeLyricsList);
+    overlay.addEventListener('click', closeAllModals);
+    
+    // 添加弹窗关闭按钮点击事件
+    helpModalClose.addEventListener('click', closeAllModals);
     
     //first,we will create song list
     const songList = [
