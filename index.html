@@ -1085,6 +1085,7 @@
         listToShow.forEach((song, index) => {
             const lyricItem = document.createElement('li');
             lyricItem.className = 'lyric-item';
+            lyricItem.id = 'lyric-item-' + index;
             lyricItem.dataset.songIndex = index;
             
             let content = '';
@@ -1098,6 +1099,7 @@
                 const checkIcon = document.createElement('ion-icon');
                 checkIcon.name = "checkmark-outline";
                 checkIcon.className = "check-icon";
+                checkIcon.id = "check-icon-" + index;
                 // 根据编辑模式设置初始显示状态
                 checkIcon.style.display = is_my_lines_edit ? 'block' : 'none';
                 lyricItem.appendChild(checkIcon);
@@ -1274,8 +1276,28 @@
         }
         
         // 新增：编辑模式点击事件处理
-        function handleEditModeClick() {
-            console.log('编辑模式单击事件');
+        function handleEditModeClick(event) {
+            // console.log('编辑模式单击事件', event.currentTarget);
+            let index = event.currentTarget.id.split('-')[2]
+            songList[index].isMy = !songList[index].isMy;
+
+            let checkIcon = document.getElementById('check-icon-' + index);
+            if (songList[index].isMy) {
+                if (checkIcon) {
+                    checkIcon.style.display = 'block';
+                } else {
+                    // 如果歌曲被标记为"My"，添加勾选图标
+                    let lyricItem = document.getElementById('lyric-item-' + index)
+                    const checkIcon = document.createElement('ion-icon');
+                    checkIcon.name = "checkmark-outline";
+                    checkIcon.className = "check-icon";
+                    checkIcon.id = 'check-icon-' + index;
+                    checkIcon.style.display = 'block';
+                    lyricItem.appendChild(checkIcon);
+                }
+            } else {
+                checkIcon.style.display = 'none';
+            }
         }
         
         // 新增：编辑模式双击事件处理
