@@ -528,7 +528,7 @@
 
         .lyrics-content {
             flex: 1;
-            overflow-y: auto;
+            /* overflow-y: auto; */
             margin: 5px;
             padding-right: 10px;
             perspective: 1000px;
@@ -584,16 +584,20 @@
             }
         }
         .flip-card .card{
+            overflow-y: auto;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
+            height: 100%;
             box-shadow: 0 5px 10px rgba(0,0,0,0.2);
             backface-visibility: hidden;
             position: absolute;
         }
 
         .back.card {
+            height: 100%;
+            overflow-y: auto;
             transform: rotateY(180deg);
         }
         
@@ -602,7 +606,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            width: 100%;
+            width: 95%;
         }
         
         .lyric-item {
