@@ -1098,50 +1098,50 @@
         console.log('My lines mode:', is_my_lines ? 'ON' : 'OFF');
     }
 
-// 添加长按功能变量
-let longPressTimer = null;
-const longPressDuration = 1000; // 长按时间阈值（毫秒）
-let isLongPress = false;
+    // 添加长按功能变量
+    let longPressTimer = null;
+    const longPressDuration = 1000; // 长按时间阈值（毫秒）
+    let isLongPress = false;
 
-// 为myLinesBtn添加长按事件
-myLinesBtn.addEventListener('mousedown', startLongPress);
-myLinesBtn.addEventListener('touchstart', startLongPress);
-myLinesBtn.addEventListener('mouseup', endLongPress);
-myLinesBtn.addEventListener('touchend', endLongPress);
-myLinesBtn.addEventListener('mouseleave', endLongPress);
+    // 为myLinesBtn添加长按事件
+    myLinesBtn.addEventListener('mousedown', startLongPress);
+    myLinesBtn.addEventListener('touchstart', startLongPress);
+    myLinesBtn.addEventListener('mouseup', endLongPress);
+    myLinesBtn.addEventListener('touchend', endLongPress);
+    myLinesBtn.addEventListener('mouseleave', endLongPress);
 
-// 开始长按
-function startLongPress(e) {
-    isLongPress = false;
-    longPressTimer = setTimeout(() => {
-        isLongPress = true;
-        handleLongPress();
-    }, longPressDuration);
-    
-    // 防止触摸设备上的默认行为
-    if (e.type === 'touchstart') {
-        e.preventDefault();
+    // 开始长按
+    function startLongPress(e) {
+        isLongPress = false;
+        longPressTimer = setTimeout(() => {
+            isLongPress = true;
+            handleLongPress();
+        }, longPressDuration);
+        
+        // 防止触摸设备上的默认行为
+        if (e.type === 'touchstart') {
+            e.preventDefault();
+        }
     }
-}
 
-// 结束长按
-function endLongPress() {
-    if (longPressTimer) {
-        clearTimeout(longPressTimer);
+    // 结束长按
+    function endLongPress() {
+        if (longPressTimer) {
+            clearTimeout(longPressTimer);
+        }
+        
+        // 如果不是长按，可能是点击
+        if (!isLongPress) {
+            // 这里可以处理点击事件（如果有需要）
+        }
     }
-    
-    // 如果不是长按，可能是点击
-    if (!isLongPress) {
-        // 这里可以处理点击事件（如果有需要）
-    }
-}
 
-// 处理长按事件
-function handleLongPress() {
-    is_my_lines_edit = true
-    console.log("MyLinesBtn 长按事件触发");
-    // 这里可以添加长按后的实际功能
-}
+    // 处理长按事件
+    function handleLongPress() {
+        is_my_lines_edit = true
+        console.log("MyLinesBtn 长按事件触发", is_my_lines_edit);
+        // 这里可以添加长按后的实际功能
+    }
 
     
     // 添加语言切换事件
