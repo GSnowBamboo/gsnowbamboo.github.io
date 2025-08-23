@@ -1051,6 +1051,7 @@
     
     // 关闭所有弹窗
     function closeAllModals() {
+        is_my_lines_edit = false;
         // 恢复页面亮度
         document.body.classList.remove('dimmed');
         
@@ -1062,7 +1063,6 @@
     
     // 显示台词列表
     function showLyricsList() {
-        is_my_lines_edit = false;
         console.log('111', is_my_lines_edit)
         // 降低页面亮度
         document.body.classList.add('dimmed');
@@ -1084,7 +1084,6 @@
         let lyricsList = !is_my_lines ? lyricsListA : lyricsListB;
         lyricsList.innerHTML = '';
         // 根据is_my_lines状态选择要显示的列表
-        // const listToShow = is_my_lines ? myLyricsList : songList;
         // 为每首歌添加台词
         if (is_my_lines) {
             songList.forEach((song, index) => {
@@ -1114,7 +1113,7 @@
                             // 切换到对应歌曲
                             if (currentSongIndex !== index || !song_Playing) {
                                 currentSongIndex = index;
-                                loadSong(listToShow[currentSongIndex]);
+                                loadSong(songList[currentSongIndex]);
                             }
                             
                             if (!song_Playing) playSong();
@@ -1165,7 +1164,7 @@
                     // 切换到对应歌曲
                     if (currentSongIndex !== index || !song_Playing) {
                         currentSongIndex = index;
-                        loadSong(listToShow[currentSongIndex]);
+                        loadSong(songList[currentSongIndex]);
                     }
                     
                     if (!song_Playing) playSong();
@@ -1318,21 +1317,20 @@
                 
                 // 获取新的元素引用
                 const newItem = document.querySelector(`[data-song-index="${item.dataset.songIndex}"]`);
-                
+
                 if (is_my_lines_edit) {
                     // 编辑模式下绑定新事件
+                    console.log('asdadsa')
                     newItem.addEventListener('click', handleEditModeClick);
                     newItem.addEventListener('dblclick', handleEditModeDblClick);
                 } else {
                     // 非编辑模式下绑定原事件
                     newItem.addEventListener('click', function() {
                         const index = parseInt(this.dataset.songIndex);
-                        // const listToShow = is_my_lines ? myLyricsList : songList;
-                        const listToShow = songList;
                         // 切换到对应歌曲
                         if (currentSongIndex !== index || !song_Playing) {
                             currentSongIndex = index;
-                            loadSong(listToShow[currentSongIndex]);
+                            loadSong(songList[currentSongIndex]);
                         }
                         
                         if (!song_Playing) playSong();
