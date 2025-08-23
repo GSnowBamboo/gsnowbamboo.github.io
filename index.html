@@ -534,7 +534,7 @@
             perspective: 1000px;
         }
 
-        .lyrics-content .flip-card{
+        .flip-card{
             position: relative;
             height: 100%;
             width: 100%;
@@ -1042,7 +1042,7 @@
             lyricsList.appendChild(lyricItem);
         });
     }
-    
+
     // 切换自定义列表状态
     function toggleMyLines() {
         is_my_lines = !is_my_lines;
@@ -1395,6 +1395,8 @@
             // 初始化水印
             createWatermarks();
             
+            // 在窗口大小改变时也调整高度
+            window.addEventListener('resize', adjustFlipCardHeight);
             // 调整窗口大小时重新创建水印
             window.addEventListener('resize', createWatermarks);
         });
