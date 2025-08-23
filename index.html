@@ -1346,6 +1346,12 @@
         
         // 新增：编辑模式点击事件处理
         function handleEditModeClick(event) {
+            if (is_my_lines) {
+                let index = event.currentTarget.id.split('-')[2]
+                songList[index].isMy = !songList[index].isMy;
+                populateLyricsListEx();
+                return;
+            }
             // console.log('编辑模式单击事件', event.currentTarget);
             let index = event.currentTarget.id.split('-')[2]
             songList[index].isMy = !songList[index].isMy;
