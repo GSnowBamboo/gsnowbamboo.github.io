@@ -1106,19 +1106,26 @@
             // 根据编辑模式设置样式
             updateLyricItemStyle(lyricItem);
             
-            // 添加点击事件
-            lyricItem.addEventListener('click', () => {
-                // 切换到对应歌曲
-                if (currentSongIndex !== index || !song_Playing) {
-                    currentSongIndex = index;
-                    loadSong(listToShow[currentSongIndex]);
-                }
-                
-                if (!song_Playing) playSong();
-                
-                // 关闭弹窗
-                closeAllModals();
-            });
+            // 根据编辑模式绑定不同的事件
+            if (is_my_lines_edit) {
+                // 编辑模式下绑定新事件
+                lyricItem.addEventListener('click', handleEditModeClick);
+                lyricItem.addEventListener('dblclick', handleEditModeDblClick);
+            } else {
+                // 非编辑模式下绑定原事件
+                lyricItem.addEventListener('click', function() {
+                    // 切换到对应歌曲
+                    if (currentSongIndex !== index || !song_Playing) {
+                        currentSongIndex = index;
+                        loadSong(listToShow[currentSongIndex]);
+                    }
+                    
+                    if (!song_Playing) playSong();
+                    
+                    // 关闭弹窗
+                    closeAllModals();
+                });
+            }
             
             lyricsList.appendChild(lyricItem);
         });
@@ -1225,7 +1232,56 @@
 
         // 更新勾选图标状态
         updateCheckIcons();
+
+        // 重新绑定歌词项事件
+        rebindLyricItemEvents();
     }
+
+    // 新增：重新绑定歌词项事件函数
+        function rebindLyricItemEvents() {
+            const lyricItems = document.querySelectorAll('.lyric-item');
+            
+            lyricItems.forEach(item => {
+                // 先移除所有事件监听器
+                item.replaceWith(item.cloneNode(true));
+                
+                // 获取新的元素引用
+                const newItem = document.querySelector(`[data-song-index="${item.dataset.songIndex}"]`);
+                
+                if (is_my_lines_edit) {
+                    // 编辑模式下绑定新事件
+                    newItem.addEventListener('click', handleEditModeClick);
+                    newItem.addEventListener('dblclick', handleEditModeDblClick);
+                } else {
+                    // 非编辑模式下绑定原事件
+                    newItem.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.songIndex);
+                        const listToShow = is_my_lines ? myLyricsList : songList;
+                        
+                        // 切换到对应歌曲
+                        if (currentSongIndex !== index || !song_Playing) {
+                            currentSongIndex = index;
+                            loadSong(listToShow[currentSongIndex]);
+                        }
+                        
+                        if (!song_Playing) playSong();
+                        
+                        // 关闭弹窗
+                        closeAllModals();
+                    });
+                }
+            });
+        }
+        
+        // 新增：编辑模式点击事件处理
+        function handleEditModeClick() {
+            console.log('编辑模式单击事件');
+        }
+        
+        // 新增：编辑模式双击事件处理
+        function handleEditModeDblClick() {
+            console.log('编辑模式双击事件');
+        }
 
     // 更新勾选图标显示状态
     function updateCheckIcons() {
