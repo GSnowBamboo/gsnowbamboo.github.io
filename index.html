@@ -540,12 +540,12 @@
             width: 100%;
             /* background: #D48600; */
             transform-style: preserve-3d;
-            transition: all 1s ease-in-out;
+            /* transition: all 1s ease-in-out; */
         }
 
         .flip-card.animate {
-        /* transform: rotateY(180deg); */
-        animation: shrinkFlipRestore 2s forwards;
+            /* transform: rotateY(180deg); */
+            animation: shrinkFlipRestore 2s forwards;
         }
         /* 定义先缩小再翻转的动画 */
         /* 定义完整动画：缩小 → 翻转 → 恢复大小 */
@@ -704,6 +704,25 @@
             box-shadow: inset 0 -5px 5px rgba(56, 167, 255, 0.1),
                         0 5px 10px rgba(56, 167, 255, 0.1),
                         0 10px 15px rgba(56, 167, 255, 0.1);
+        }
+        .my-lines:hover .long-press-tooltip {
+            opacity: 1;
+        }
+        /* 添加长按提示样式 */
+        .long-press-tooltip {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -992,6 +1011,8 @@
     
     // 显示台词列表
     function showLyricsList() {
+        is_my_lines_edit = false;
+        console.log('111', is_my_lines_edit)
         // 降低页面亮度
         document.body.classList.add('dimmed');
         
@@ -1043,8 +1064,13 @@
         });
     }
 
+    let is_my_lines_edit = false;
     // 切换自定义列表状态
     function toggleMyLines() {
+        if (is_my_lines_edit) {
+            return;
+        }
+        
         is_my_lines = !is_my_lines;
 
         // 先移除所有动画类
@@ -1071,6 +1097,52 @@
         
         console.log('My lines mode:', is_my_lines ? 'ON' : 'OFF');
     }
+
+// 添加长按功能变量
+let longPressTimer = null;
+const longPressDuration = 1000; // 长按时间阈值（毫秒）
+let isLongPress = false;
+
+// 为myLinesBtn添加长按事件
+myLinesBtn.addEventListener('mousedown', startLongPress);
+myLinesBtn.addEventListener('touchstart', startLongPress);
+myLinesBtn.addEventListener('mouseup', endLongPress);
+myLinesBtn.addEventListener('touchend', endLongPress);
+myLinesBtn.addEventListener('mouseleave', endLongPress);
+
+// 开始长按
+function startLongPress(e) {
+    isLongPress = false;
+    longPressTimer = setTimeout(() => {
+        isLongPress = true;
+        handleLongPress();
+    }, longPressDuration);
+    
+    // 防止触摸设备上的默认行为
+    if (e.type === 'touchstart') {
+        e.preventDefault();
+    }
+}
+
+// 结束长按
+function endLongPress() {
+    if (longPressTimer) {
+        clearTimeout(longPressTimer);
+    }
+    
+    // 如果不是长按，可能是点击
+    if (!isLongPress) {
+        // 这里可以处理点击事件（如果有需要）
+    }
+}
+
+// 处理长按事件
+function handleLongPress() {
+    is_my_lines_edit = true
+    console.log("MyLinesBtn 长按事件触发");
+    // 这里可以添加长按后的实际功能
+}
+
     
     // 添加语言切换事件
     languageBtn.addEventListener('click', toggleLanguage);
@@ -1395,8 +1467,6 @@
             // 初始化水印
             createWatermarks();
             
-            // 在窗口大小改变时也调整高度
-            window.addEventListener('resize', adjustFlipCardHeight);
             // 调整窗口大小时重新创建水印
             window.addEventListener('resize', createWatermarks);
         });
