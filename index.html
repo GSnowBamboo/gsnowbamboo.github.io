@@ -192,7 +192,7 @@
         }
         
         .btns span:hover {
-            color: #38a7ff;
+            color: #ff669a;
             transform: scale(1.1);
         }
         
@@ -241,7 +241,7 @@
         
         .progress {
             height: 100%;
-            background: #38a7ff;
+            background: #ff669a;
             width: 0%;
             border-radius: 10px;
             transition: width 0.1s ease;
@@ -278,9 +278,9 @@
         }
 
         .language-btn:hover {
-            color: #38a7ff;
+            color: #ff669a;
             transform: scale(1.05);
-        }
+        }s
 
         .language-btn:active {
             color: #ff669a;
@@ -343,7 +343,7 @@
         }
 
         .help-btn:hover {
-            color: #38a7ff;
+            color: #ff669a;
             transform: scale(1.1);
         }
 
@@ -378,7 +378,7 @@
         }
 
         .detail-btn:hover {
-            color: #38a7ff;
+            color: #ff669a;
             transform: scale(1.1);
         }
 
@@ -512,7 +512,7 @@
         }
         
         .lyrics-modal .my-lines:hover {
-            color: #38a7ff;
+            color: #ff669a;
             transform: scale(1.1);
         }
         
@@ -640,6 +640,10 @@
         .lyric-item.edit-mode {
             border-bottom-color: #B6CBBD;
         }
+        /* 编辑模式下的歌词项样式 */
+        .lyric-item.my-lines-border {
+            border-left-color:#B6CBBD;
+        }
         .lyric-item:hover {
             background: rgba(56, 167, 255, 0.1);
             transform: translateX(5px);
@@ -656,7 +660,7 @@
             right: 50px;
             top: 50%;
             transform: translateY(-50%);
-            color: #38a7ff;
+            color: #B6CBBD;
             font-size: 1.5rem;
             z-index: 2;
         }
@@ -737,7 +741,7 @@
 
         /* 自定义列表样式 */
         .my-lines.active {
-            color: #38a7ff;
+            color: #B6CBBD;
             box-shadow: inset 0 -5px 5px rgba(56, 167, 255, 0.1),
                         0 5px 10px rgba(56, 167, 255, 0.1),
                         0 10px 15px rgba(56, 167, 255, 0.1);
@@ -937,38 +941,38 @@
     let is_my_lines = false;
     
     // 自定义台词列表数据
-    const myLyricsList = [
-        {
-            path: "./music/2.mp3",
-            songName: "The Sixth Station",
-            en: "Once you've met someone you never really forget them.",
-            isMy: false
-        },
-        {
-            path: "./music/5.mp3",
-            songName: "Dragon Boy",
-            en: "I7 finally get a bouquet and it's a goodbye present.",
-            isMy: false
-        },
-        {
-            path: "./music/5.mp3",
-            songName: "Dragon Boy",
-            en: "I12 finally get a bouquet and it's a goodbye present.",
-            isMy: false
-        },
-        {
-            path: "./music/5.mp3",
-            songName: "Dragon Boy",
-            en: "I13 finally get a bouquet and it's a goodbye present.",
-            isMy: false
-        },
-        {
-            path: "./music/5.mp3",
-            songName: "Dragon Boy",
-            en: "I15 finally get a bouquet and it's a goodbye present.",
-            isMy: false
-        },
-    ];
+    // const myLyricsList = [
+    //     {
+    //         path: "./music/2.mp3",
+    //         songName: "The Sixth Station",
+    //         en: "Once you've met someone you never really forget them.",
+    //         isMy: false
+    //     },
+    //     {
+    //         path: "./music/5.mp3",
+    //         songName: "Dragon Boy",
+    //         en: "I7 finally get a bouquet and it's a goodbye present.",
+    //         isMy: false
+    //     },
+    //     {
+    //         path: "./music/5.mp3",
+    //         songName: "Dragon Boy",
+    //         en: "I12 finally get a bouquet and it's a goodbye present.",
+    //         isMy: false
+    //     },
+    //     {
+    //         path: "./music/5.mp3",
+    //         songName: "Dragon Boy",
+    //         en: "I13 finally get a bouquet and it's a goodbye present.",
+    //         isMy: false
+    //     },
+    //     {
+    //         path: "./music/5.mp3",
+    //         songName: "Dragon Boy",
+    //         en: "I15 finally get a bouquet and it's a goodbye present.",
+    //         isMy: false
+    //     },
+    // ];
 
     // 切换语言函数
     function toggleLanguage() {
@@ -1069,6 +1073,7 @@
         
         // 填充台词列表
         populateLyricsListEx();
+        updateAllLyricItemsStyleByMyLines()
     }
     function populateLyricsListEx() {
         populateLyricsList();
@@ -1078,11 +1083,52 @@
     function populateLyricsList() {
         let lyricsList = !is_my_lines ? lyricsListA : lyricsListB;
         lyricsList.innerHTML = '';
-        
         // 根据is_my_lines状态选择要显示的列表
-        const listToShow = is_my_lines ? myLyricsList : songList;
+        // const listToShow = is_my_lines ? myLyricsList : songList;
         // 为每首歌添加台词
-        listToShow.forEach((song, index) => {
+        if (is_my_lines) {
+            songList.forEach((song, index) => {
+                if (song.isMy) {
+                    const lyricItem = document.createElement('li');
+                    lyricItem.className = 'lyric-item';
+                    lyricItem.id = 'lyric-item-' + index;
+                    lyricItem.dataset.songIndex = index;
+                    
+                    let content = '';
+                    if (song.en) content += `<div class="lyric-en">${song.en}</div>`;
+                    if (song.songName) content += `<div class="lyric-zh">${song.songName}</div>`;
+                    
+                    lyricItem.innerHTML = content;
+                    
+                    // 根据编辑模式设置样式
+                    updateLyricItemStyle(lyricItem);
+                    
+                    // 根据编辑模式绑定不同的事件
+                    if (is_my_lines_edit) {
+                        // 编辑模式下绑定新事件
+                        lyricItem.addEventListener('click', handleEditModeClick);
+                        lyricItem.addEventListener('dblclick', handleEditModeDblClick);
+                    } else {
+                        // 非编辑模式下绑定原事件
+                        lyricItem.addEventListener('click', function() {
+                            // 切换到对应歌曲
+                            if (currentSongIndex !== index || !song_Playing) {
+                                currentSongIndex = index;
+                                loadSong(listToShow[currentSongIndex]);
+                            }
+                            
+                            if (!song_Playing) playSong();
+                            
+                            // 关闭弹窗
+                            closeAllModals();
+                        });
+                    }
+                    
+                    lyricsList.appendChild(lyricItem);
+                }
+            });
+        } else {
+            songList.forEach((song, index) => {
             const lyricItem = document.createElement('li');
             lyricItem.className = 'lyric-item';
             lyricItem.id = 'lyric-item-' + index;
@@ -1131,6 +1177,7 @@
             
             lyricsList.appendChild(lyricItem);
         });
+        }
     }
 
     // 更新歌词项样式
@@ -1147,6 +1194,23 @@
         const allLyricItems = document.querySelectorAll('.lyric-item');
         allLyricItems.forEach(item => {
             updateLyricItemStyle(item);
+        });
+    }
+
+        // 更新歌词项样式
+    function updateLyricItemStyleByMyLines(item) {
+        if (is_my_lines) {
+            item.classList.add('my-lines-border');
+        } else {
+            item.classList.remove('my-lines-border');
+        }
+    }
+
+    // 更新所有歌词项样式
+    function updateAllLyricItemsStyleByMyLines() {
+        const allLyricItems = document.querySelectorAll('.lyric-item');
+        allLyricItems.forEach(item => {
+            updateLyricItemStyleByMyLines(item);
         });
     }
 
@@ -1182,7 +1246,12 @@
             populateLyricsListEx();
         }
         
+        if (is_my_lines_edit) {
+            populateLyricsListEx()
+        }
+        // console.log('edit:', is_my_lines_edit);
         console.log('My lines mode:', is_my_lines ? 'ON' : 'OFF');
+        updateAllLyricItemsStyleByMyLines();
     }
 
     // 添加长按功能变量
@@ -1258,8 +1327,8 @@
                     // 非编辑模式下绑定原事件
                     newItem.addEventListener('click', function() {
                         const index = parseInt(this.dataset.songIndex);
-                        const listToShow = is_my_lines ? myLyricsList : songList;
-                        
+                        // const listToShow = is_my_lines ? myLyricsList : songList;
+                        const listToShow = songList;
                         // 切换到对应歌曲
                         if (currentSongIndex !== index || !song_Playing) {
                             currentSongIndex = index;
