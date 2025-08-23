@@ -531,22 +531,12 @@
             overflow-y: auto;
             margin: 5px;
             padding-right: 10px;
-            /* 添加3D翻转相关样式 */
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-            perspective: 1000px;
-        }
-        
-        .lyrics-content.flipped {
-            transform: rotateY(180deg);
         }
         
         .lyrics-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            backface-visibility: hidden;
-            transform: rotateY(0deg);
         }
         
         .lyric-item {
@@ -796,7 +786,6 @@
     const lyricsList = document.getElementById('lyricsList');
     const overlay = document.getElementById('overlay');
     const myLinesBtn = document.getElementById('myLinesBtn');
-    const lyricsContent = document.querySelector('.lyrics-content');
     
     // 新增弹窗元素
     const detailModal = document.getElementById('detailModal');
@@ -978,32 +967,21 @@
     function toggleMyLines() {
         is_my_lines = !is_my_lines;
         
-        // 添加3D翻转效果
-        lyricsContent.classList.add('flipped');
+        // 更新myLines按钮样式
+        if (is_my_lines) {
+            myLinesBtn.classList.add('active');
+            progressContainer.style.background = '#B6CBBD';
+        } else {
+            myLinesBtn.classList.remove('active');
+            progressContainer.style.background = '#e0e0e0';
+        }
         
-        // 等待动画完成后更新内容
-        setTimeout(() => {
-            // 更新myLines按钮样式
-            if (is_my_lines) {
-                myLinesBtn.classList.add('active');
-                progressContainer.style.background = '#B6CBBD';
-            } else {
-                myLinesBtn.classList.remove('active');
-                progressContainer.style.background = '#e0e0e0';
-            }
-            
-            // 如果歌词弹窗是打开的，刷新列表
-            if (lyricsModal.classList.contains('active')) {
-                populateLyricsList();
-            }
-            
-            // 移除翻转效果以便下次使用
-            setTimeout(() => {
-                lyricsContent.classList.remove('flipped');
-            }, 100);
-            
-            console.log('My lines mode:', is_my_lines ? 'ON' : 'OFF');
-        }, 300); // 等待翻转动画完成一半
+        // 如果歌词弹窗是打开的，刷新列表
+        if (lyricsModal.classList.contains('active')) {
+            populateLyricsList();
+        }
+        
+        console.log('My lines mode:', is_my_lines ? 'ON' : 'OFF');
     }
     
     // 添加语言切换事件
