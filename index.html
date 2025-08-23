@@ -633,12 +633,16 @@
             transition: all 0.3s ease;
             cursor: pointer;
             border-style: solid;
-            border-top-color: rgba(240, 240, 240, 0.7);
+            border-color: rgba(240, 240, 240, 0.7);
+            /* border-top-color: rgba(240, 240, 240, 0.7);
             border-left-color: rgba(240, 240, 240, 0.7);
             border-right-color: rgba(240, 240, 240, 0.7);
+            border-bottom-color:rgba(240, 240, 240, 0.7); */
+        }
+        /* 编辑模式下的歌词项样式 */
+        .lyric-item.edit-mode {
             border-bottom-color: #B6CBBD;
         }
-        
         .lyric-item:hover {
             background: rgba(56, 167, 255, 0.1);
             transform: translateX(5px);
@@ -1071,6 +1075,9 @@
             
             lyricItem.innerHTML = content;
             
+            // 根据编辑模式设置样式
+            updateLyricItemStyle(lyricItem);
+            
             // 添加点击事件
             lyricItem.addEventListener('click', () => {
                 // 切换到对应歌曲
@@ -1086,6 +1093,23 @@
             });
             
             lyricsList.appendChild(lyricItem);
+        });
+    }
+
+    // 更新歌词项样式
+    function updateLyricItemStyle(item) {
+        if (is_my_lines_edit) {
+            item.classList.add('edit-mode');
+        } else {
+            item.classList.remove('edit-mode');
+        }
+    }
+
+    // 更新所有歌词项样式
+    function updateAllLyricItemsStyle() {
+        const allLyricItems = document.querySelectorAll('.lyric-item');
+        allLyricItems.forEach(item => {
+            updateLyricItemStyle(item);
         });
     }
 
@@ -1167,7 +1191,9 @@
         is_my_lines_long = true;
         is_my_lines_edit = !is_my_lines_edit;
         console.log("MyLinesBtn 长按事件触发", is_my_lines_edit);
-        // 这里可以添加长按后的实际功能
+        
+        // 更新所有歌词项的样式
+        updateAllLyricItemsStyle();
     }
 
     
@@ -1182,10 +1208,10 @@
     
     // 添加详细信息按钮点击事件
     detailBtn.addEventListener('click', showDetailModal);
-    
+
     // 添加台词列表按钮点击事件
     linesListBtn.addEventListener('click', showLyricsList);
-        
+
     // 添加遮罩层点击事件（点击遮罩层也可以关闭弹窗）
     overlay.addEventListener('click', closeAllModals);
     
