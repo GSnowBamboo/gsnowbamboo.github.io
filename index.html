@@ -931,25 +931,35 @@
     // 自定义台词列表数据
     const myLyricsList = [
         {
-            en: "This is my favorite line from the movie.",
-            songName: "My Selection 1"
-        },
-        {
-            en: "Remember who you are and don't lose yourself.",
-            songName: "My Selection 2"
-        },
-        {
+            path: "./music/2.mp3",
+            songName: "The Sixth Station",
             en: "Once you've met someone you never really forget them.",
-            songName: "My Selection 3"
+            isMy: false
         },
         {
-            en: "I finally get a bouquet and it's a goodbye present.",
-            songName: "My Selection 4"
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I7 finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
-            en: "Don't lose yourself! Always remember your name.",
-            songName: "My Selection 5"
-        }
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I12 finally get a bouquet and it's a goodbye present.",
+            isMy: false
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I13 finally get a bouquet and it's a goodbye present.",
+            isMy: false
+        },
+        {
+            path: "./music/5.mp3",
+            songName: "Dragon Boy",
+            en: "I15 finally get a bouquet and it's a goodbye present.",
+            isMy: false
+        },
     ];
 
     // 切换语言函数
@@ -1073,6 +1083,8 @@
             if (song.en) content += `<div class="lyric-en">${song.en}</div>`;
             if (song.songName) content += `<div class="lyric-zh">${song.songName}</div>`;
             
+            if (song.isMy) content += `<ion-icon name="checkmark-outline"></ion-icon>`;
+
             lyricItem.innerHTML = content;
             
             // 根据编辑模式设置样式
@@ -1226,87 +1238,104 @@
         {
             path: "./music/1.mp3",
             songName: "One Summer's Day",
-            en: "The name of that river..."
+            en: "The name of that river...",
+            isMy: false
         },
         {
             path: "./music/2.mp3",
             songName: "The Sixth Station",
-            en: "Once you've met someone you never really forget them."
+            en: "Once you've met someone you never really forget them.",
+            isMy: true
         },
         {
             path: "./music/3.mp3",
             songName: "The Bottomless Pit",
-            en: "Don't lose yourself!"
+            en: "Don't lose yourself!",
+            isMy: false
         },
         {
             path: "./music/4.mp3",
             songName: "Nighttime Coming",
-            en: "Once you do something, you never forget."
+            en: "Once you do something, you never forget.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I finally get a bouquet and it's a goodbye present."
+            en: "I5 finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I6 finally get a bouquet and it's a goodbye present."
+            en: "I6 finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I7 finally get a bouquet and it's a goodbye present."
+            en: "I7 finally get a bouquet and it's a goodbye present.",
+            isMy: true
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I 8finally get a bouquet and it's a goodbye present."
+            en: "I 8finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I 9finally get a bouquet and it's a goodbye present."
+            en: "I 9finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I 10finally get a bouquet and it's a goodbye present."
+            en: "I 10finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I11 finally get a bouquet and it's a goodbye present."
+            en: "I11 finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I12 finally get a bouquet and it's a goodbye present."
+            en: "I12 finally get a bouquet and it's a goodbye present.",
+            isMy: true
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I13 finally get a bouquet and it's a goodbye present."
+            en: "I13 finally get a bouquet and it's a goodbye present.",
+            isMy: true
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I14 finally get a bouquet and it's a goodbye present."
+            en: "I14 finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I15 finally get a bouquet and it's a goodbye present."
+            en: "I15 finally get a bouquet and it's a goodbye present.",
+            isMy: true
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I 16finally get a bouquet and it's a goodbye present."
+            en: "I 16finally get a bouquet and it's a goodbye present.",
+            isMy: false
         },
         {
             path: "./music/5.mp3",
             songName: "Dragon Boy",
-            en: "I 17finally get a bouquet and it's a goodbye present."
+            en: "I 17finally get a bouquet and it's a goodbye present.",
+            isMy: false
         }
     ];
     let song_Playing = false;
