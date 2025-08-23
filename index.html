@@ -1346,6 +1346,7 @@
         
         // 新增：编辑模式点击事件处理
         function handleEditModeClick(event) {
+            console.log('..........');
             if (is_my_lines) {
                 let index = event.currentTarget.id.split('-')[2]
                 songList[index].isMy = !songList[index].isMy;
