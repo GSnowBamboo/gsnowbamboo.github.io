@@ -1071,7 +1071,8 @@
     let is_my_lines_edit = false;
     // 切换自定义列表状态
     function toggleMyLines() {
-        if (is_my_lines_edit) {
+        if (is_my_lines_long) {
+            is_my_lines_long = false;
             return;
         }
         
@@ -1139,10 +1140,11 @@
             // 这里可以处理点击事件（如果有需要）
         }
     }
-
+    let is_my_lines_long = false
     // 处理长按事件
     function handleLongPress() {
-        is_my_lines_edit = true
+        is_my_lines_long = true;
+        is_my_lines_edit = !is_my_lines_edit;
         console.log("MyLinesBtn 长按事件触发", is_my_lines_edit);
         // 这里可以添加长按后的实际功能
     }
