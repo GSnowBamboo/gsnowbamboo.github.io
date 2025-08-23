@@ -625,6 +625,7 @@
 
         
         .lyric-item {
+            position: relative; /* 为绝对定位的子元素提供参考 */
             width: 95%;
             padding: 12px 15px;
             border-radius: 8px;
@@ -634,10 +635,6 @@
             cursor: pointer;
             border-style: solid;
             border-color: rgba(240, 240, 240, 0.7);
-            /* border-top-color: rgba(240, 240, 240, 0.7);
-            border-left-color: rgba(240, 240, 240, 0.7);
-            border-right-color: rgba(240, 240, 240, 0.7);
-            border-bottom-color:rgba(240, 240, 240, 0.7); */
         }
         /* 编辑模式下的歌词项样式 */
         .lyric-item.edit-mode {
@@ -651,6 +648,17 @@
         .lyric-item.active {
             background: rgba(56, 167, 255, 0.2);
             border-left: 4px solid #38a7ff;
+        }
+        
+        /* 勾选图标样式 */
+        .check-icon {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #38a7ff;
+            font-size: 1.5rem;
+            z-index: 2;
         }
         
         .lyric-en {
@@ -1083,9 +1091,15 @@
             if (song.en) content += `<div class="lyric-en">${song.en}</div>`;
             if (song.songName) content += `<div class="lyric-zh">${song.songName}</div>`;
             
-            if (song.isMy) content += `<ion-icon name="checkmark-outline"></ion-icon>`;
-
             lyricItem.innerHTML = content;
+            
+            // 如果歌曲被标记为"My"，添加勾选图标
+            if (is_my_lines_edit && !is_my_lines && issong.isMy) {
+                const checkIcon = document.createElement('ion-icon');
+                checkIcon.name = "checkmark-outline";
+                checkIcon.className = "check-icon";
+                lyricItem.appendChild(checkIcon);
+            }
             
             // 根据编辑模式设置样式
             updateLyricItemStyle(lyricItem);
