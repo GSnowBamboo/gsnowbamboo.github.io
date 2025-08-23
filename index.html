@@ -531,12 +531,78 @@
             overflow-y: auto;
             margin: 5px;
             padding-right: 10px;
+            perspective: 1000px;
+        }
+
+        .lyrics-content .flip-card{
+            position: relative;
+            height: 100%;
+            width: 100%;
+            /* background: #D48600; */
+            transform-style: preserve-3d;
+            transition: all 1s ease-in-out;
+        }
+
+        .flip-card.animate {
+        /* transform: rotateY(180deg); */
+        animation: shrinkFlipRestore 2s forwards;
+        }
+        /* 定义先缩小再翻转的动画 */
+        /* 定义完整动画：缩小 → 翻转 → 恢复大小 */
+        @keyframes shrinkFlipRestore {
+            0% {
+            transform: scale(1); /* 初始状态 */
+            }
+            30% {
+            transform: scale(0.55); /* 缩小到80% */
+            }
+            60% {
+            transform: scale(0.55) rotateY(180deg); /* 保持缩小状态并完成翻转 */
+            }
+            100% {
+            transform: scale(1) rotateY(180deg); /* 恢复原始大小，保持翻转状态 */
+            }
+        }
+
+        /* 反向动画：回到初始状态 */
+        .flip-card.reverse {
+            animation: restoreFlipGrow 2s forwards;
+        }
+
+        @keyframes restoreFlipGrow {
+            0% {
+            transform: scale(1) rotateY(180deg); /* 翻转后的状态 */
+            }
+            30% {
+            transform: scale(0.55) rotateY(180deg); /* 缩小到80% */
+            }
+            60% {
+            transform: scale(0.55) rotateY(0); /* 保持缩小状态并翻回 */
+            }
+            100% {
+            transform: scale(1) rotateY(0); /* 恢复原始大小和状态 */
+            }
+        }
+        .flip-card .card{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            backface-visibility: hidden;
+            position: absolute;
+        }
+
+        .back.card {
+            transform: rotateY(180deg);
         }
         
-        .lyrics-list {
+        .lyrics-list-a,
+        .lyrics-list-b {
             list-style: none;
             padding: 0;
             margin: 0;
+            width: 100%;
         }
         
         .lyric-item {
@@ -752,9 +818,18 @@
             <ion-icon name="reader-outline"></ion-icon>
         </span>
         <div class="lyrics-content">
-            <ul class="lyrics-list" id="lyricsList">
-                <!-- 台词内容将通过JavaScript动态添加 -->
-            </ul>
+            <div class="flip-card">
+                <div class="front card">
+                    <ul class="lyrics-list-a" id="lyricsList-a">
+                        <!-- 台词内容将通过JavaScript动态添加 -->
+                    </ul>
+                </div>
+                <div class="back card">
+                    <ul class="lyrics-list-b" id="lyricsList-b">
+                    <!-- 台词内容将通过JavaScript动态添加 -->
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -783,8 +858,10 @@
     const detailBtn = document.getElementById('detailBtn');
     const linesListBtn = document.getElementById('linesListBtn');
     const lyricsModal = document.getElementById('lyricsModal');
-    const lyricsList = document.getElementById('lyricsList');
+    const lyricsListA = document.getElementById('lyricsList-a');
+    const lyricsListB = document.getElementById('lyricsList-b');
     const overlay = document.getElementById('overlay');
+    const flipCard = document.querySelector('.flip-card');
     const myLinesBtn = document.getElementById('myLinesBtn');
     
     // 新增弹窗元素
@@ -923,16 +1000,19 @@
         lyricsModal.classList.add('active');
         
         // 填充台词列表
+        populateLyricsListEx();
+    }
+    function populateLyricsListEx() {
         populateLyricsList();
     }
-    
+
     // 填充台词列表
     function populateLyricsList() {
+        let lyricsList = !is_my_lines ? lyricsListA : lyricsListB;
         lyricsList.innerHTML = '';
         
         // 根据is_my_lines状态选择要显示的列表
         const listToShow = is_my_lines ? myLyricsList : songList;
-        
         // 为每首歌添加台词
         listToShow.forEach((song, index) => {
             const lyricItem = document.createElement('li');
@@ -966,19 +1046,27 @@
     // 切换自定义列表状态
     function toggleMyLines() {
         is_my_lines = !is_my_lines;
-        
-        // 更新myLines按钮样式
+
+        // 先移除所有动画类
+        flipCard.classList.remove('animate', 'reverse');
+    
+        // 触发重排，确保动画能重新触发
+        void flipCard.offsetWidth;
+    
+        // 根据当前状态添加相应的动画类
         if (is_my_lines) {
+            flipCard.classList.add('animate');
             myLinesBtn.classList.add('active');
             progressContainer.style.background = '#B6CBBD';
         } else {
+            flipCard.classList.add('reverse');
             myLinesBtn.classList.remove('active');
             progressContainer.style.background = '#e0e0e0';
         }
         
         // 如果歌词弹窗是打开的，刷新列表
         if (lyricsModal.classList.contains('active')) {
-            populateLyricsList();
+            populateLyricsListEx();
         }
         
         console.log('My lines mode:', is_my_lines ? 'ON' : 'OFF');
