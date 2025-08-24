@@ -866,10 +866,7 @@
                 <div class="detail-container">
                     <!-- 句型 说明 -->
                     <div class="language-base" id="language-base">
-                        <span>
-                            动态显示 &emsp;&emsp;
-                            结构&emsp;&emsp; 种类&emsp;&emsp; 句型&emsp;&emsp; 时态 
-                        </span>
+                        <span class='language-base-ok'></span>
                     </div>
                     <div class="language-line-up" id="language-line-up"></div>
                     <div class="language-en">
@@ -987,36 +984,42 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 <script>
+    const ruleType = ['陈述句','一般疑问句','特殊疑问句','选择疑问句','反意疑问句','祈使句','感叹句'];
+    const ruleStruct = ['简单句','并列复合句','主语从句','宾语从句','表语从句','同位语从句','直接引语','间接引语','限制性定语从句','非限制性定语从句','时间状语从句','地点状语从句','原因状语从句','目的状语从句','结果状语从句','条件状语从句','让步状语从句','比较状语从句','方式状语从句'];
+    const ruleSentence = ['主谓','主谓宾','主系表','主谓间宾直宾','主谓宾宾补','主谓状','主谓宾状语','存现句'];
+    const ruleTense = ['一般现在时','一般过去时','一般将来时','一般过去将来时','现在进行时','过去进行时','将来进行时','过去将来进行时','现在完成时','过去完成时','将来完成时','过去将来完成时','现在完成进行时','过去完成进行时','将来完成进行时','过去将来完成进行时'];
+
     songList = [
-        {index: 1, isMy: false, time:'00.00.14.383', role:'Chihiro',songEn:'I\'ll miss you, chihiro, your best friend, Rumi.',songZh:'我会想念你的,千寻,你最好的朋友,露米.',code:'AAA,ABA,ACB,ADC,AEA,AEB,AED,AEI,AEH'},
-        {index: 2, isMy: false, time:'00.00.19.348', role:'Dad',songEn:'Chihiro, Chihiro, we\'re almost there.',songZh:'千寻,千寻,我们快到了.',code:'AAA,ABA,ACF,ADA,AEA,AEB,AEF,AEI'},
-        {index: 3, isMy: false, time:'00.00.23.093', role:'Mom',songEn:'This really is in the middle of nowhere.',songZh:'这真的是在荒郊野外.',code:'AAA,ABA,ACC,ADA,AEA,AEB,AEC,AEF'},
-        {index: 4, isMy: false, time:'00.00.25.982', role:'Mom',songEn:'I\'m gonna have to go to the next town to shop.',songZh:'我得去下一个镇上购物.',code:'AAA,ABA,ACF,ADC,AEA,AEB,AEF,AEE'},
-        {index: 5, isMy: false, time:'00.00.25.983', role:'Chihiro',songEn:'We\'ll just have to learn to like it.',songZh:'我们只好习惯这里.',code:'AAA,ABA,ACB,ADC,AEA,AEB,AED,AEF'},
-        {index: 6, isMy: false, time:'00.00.33.284', role:'Dad',songEn:'Look,Chihiro, there\'s your new school.',songZh:'看,千寻,那是你的新学校.',code:'AAA,ABA,ACH,ADA,AEA,AEB,AEE,AEI'},
-        {index: 7, isMy: false, time:'00.00.33.285', role:'Dad',songEn:'Looks great, doesn\'t it?',songZh:'看起来不错,不是吗?',code:'AABD,ABB,ACC,ADA,AEA,AEB,AEC'},
-        {index: 8, isMy: false, time:'00.00.37.723', role:'Mom',songEn:'It doesn\'t look so bad.',songZh:'看起来还不算太糟糕.',code:'AAA,ABA,ACC,ADA,AEA,AEB,AEC'},
-        {index: 9, isMy: false, time:'00.00.47.574', role:'Chihiro',songEn:'It\'s gonna stink.',songZh:'会很糟糕的.',code:'AAA,ABA,ACA,ADC,AEA,AEB'},
-        {index: 10, isMy: false, time:'00.00.47.575', role:'Chihiro',songEn:'I like my old school',songZh:'我喜欢我原来的学校',code:'AAA,ABA,ACB,ADA,AEA,AEB,AED,AEE'},
-        {index: 11, isMy: false, time:'00.00.53.951', role:'Chihiro',songEn:'My flowers are dying!',songZh:'我的花快枯萎了!',code:'AAD,ABA,ACA,ADE,AEA,AEB,AEE'},
-        {index: 12, isMy: false, time:'00.00.53.952', role:'Mom',songEn:'I told you not to smother them like that.',songZh:'我告诉过你不要那样捂住它们.',code:'AAA,ABA,ACE,ADB,AEA,AEB,AED,AEG,AEF'},
-        {index: 13, isMy: false, time:'00.00.59.978', role:'Mom',songEn:'We\'ll put them in water when we get to our new home.',songZh:'我们到新家以后会把它们放到水里.',code:'AAA,ABCCA,ACG,ADC,AEA,AEB,AED,AEF,AEE'},
-        {index: 14, isMy: false, time:'00.01.03.715', role:'Chihiro',songEn:'I finally get a bouquet and it\'s a goodbye present.',songZh:'我终于收到了一束花,结果是告别礼物.',code:'AAA,ABB,ADA,AEA,AEB,AED,AEC,AEE,AEF'},
-        {index: 15, isMy: false, time:'00.01.07.051', role:'Mom',songEn:'That\'s depressing.',songZh:'这真让人沮丧.',code:'AAA,ABA,ACC,ADA,AEA,AEB,AEC'},
-        {index: 16, isMy: false, time:'00.01.07.052', role:'Mom',songEn:'Daddy bought you a rose for your birthday.',songZh:'爸爸给你买了一朵玫瑰花作为生日礼物.',code:'AAA,ABA,ACD,ADB,AEA,AEB,AED,AEF'},
-        {index: 17, isMy: false, time:'00.01.07.053', role:'Mom',songEn:'Don\'t you remember?',songZh:'你不记得了吗?',code:'AABA,ABA,ACB,ADA,AEA,AEB,AED'},
-        {index: 18, isMy: false, time:'00.01.11.509', role:'Chihiro',songEn:'Yeah, one. Just one rose is in a bouquet.',songZh:'是的,就一朵.一束花里就一朵.',code:'AAA,ABA,ACC,ADA,AEA,AEB,AEC,AEE,AEI'},
-        {index: 19, isMy: false, time:'00.01.14.553', role:'Mom',songEn:'Hold on to your card.',songZh:'拿着你的卡.',code:'AAC,ABA,ACA,ADA,AEB,AED'},
-        {index: 20, isMy: false, time:'00.01.14.554', role:'Mom',songEn:'I\'m opening the window, and quit whining.',songZh:'我开窗户,别再抱怨了.',code:'AAA,ABB,ADE,AEA,AEB,AED,AEB'},
-        {index: 21, isMy: false, time:'00.01.17.196', role:'Mom',songEn:'It\'s fun to move to a new place.',songZh:'搬到新地方很有趣.',code:'AAA,ABA,ACC,ADA,AEA,AEB,AEC'},
-        {index: 22, isMy: false, time:'00.01.17.197', role:'Mom',songEn:'It\'s an adventure.',songZh:'这是一场冒险',code:'AAA,ABA,ACC,ADA,AEA,AEB,AEC'},
-        {index: 23, isMy: false, time:'00.01.57.043', role:'Dad',songEn:'Wait, did I take the wrong turn?',songZh:'等等,我是不是走错路了?',code:'AABA,ABB,ACB,ADB,AEA,AEB,AED,AEE,AEI'},
+        {index: 1, isMy: false, time:'00.00.14.383', role:'Chihiro',songEn:'I\'ll miss you, chihiro, your best friend, Rumi.',songZh:'我会想念你的,千寻,你最好的朋友,露米.',code:'0;0;1;2'},
+        {index: 2, isMy: false, time:'00.00.19.348', role:'Dad',songEn:'Chihiro, Chihiro, we\'re almost there.',songZh:'千寻,千寻,我们快到了.',code:'0;0;5;0'},
+        {index: 3, isMy: false, time:'00.00.23.093', role:'Mom',songEn:'This really is in the middle of nowhere.',songZh:'这真的是在荒郊野外.',code:'0;0;2;0'},
+        {index: 4, isMy: false, time:'00.00.25.982', role:'Mom',songEn:'I\'m gonna have to go to the next town to shop.',songZh:'我得去下一个镇上购物.',code:'0;0;5;2'},
+        {index: 5, isMy: false, time:'00.00.25.983', role:'Chihiro',songEn:'We\'ll just have to learn to like it.',songZh:'我们只好习惯这里.',code:'0;0;1;2'},
+        {index: 6, isMy: false, time:'00.00.33.284', role:'Dad',songEn:'Look,Chihiro, there\'s your new school.',songZh:'看,千寻,那是你的新学校.',code:'0;0;7;0'},
+        {index: 7, isMy: false, time:'00.00.33.285', role:'Dad',songEn:'Looks great, doesn\'t it?',songZh:'看起来不错,不是吗?',code:'4;1;2;0'},
+        {index: 8, isMy: false, time:'00.00.37.723', role:'Mom',songEn:'It doesn\'t look so bad.',songZh:'看起来还不算太糟糕.',code:'0;0;2;0'},
+        {index: 9, isMy: false, time:'00.00.47.574', role:'Chihiro',songEn:'It\'s gonna stink.',songZh:'会很糟糕的.',code:'0;0;0;2'},
+        {index: 10, isMy: false, time:'00.00.47.575', role:'Chihiro',songEn:'I like my old school',songZh:'我喜欢我原来的学校',code:'0;0;1;0'},
+        {index: 11, isMy: false, time:'00.00.53.951', role:'Chihiro',songEn:'My flowers are dying!',songZh:'我的花快枯萎了!',code:'6;0;0;4'},
+        {index: 12, isMy: false, time:'00.00.53.952', role:'Mom',songEn:'I told you not to smother them like that.',songZh:'我告诉过你不要那样捂住它们.',code:'0;0;4;1'},
+        {index: 13, isMy: false, time:'00.00.59.978', role:'Mom',songEn:'We\'ll put them in water when we get to our new home.',songZh:'我们到新家以后会把它们放到水里.',code:'0;10;6;2'},
+        {index: 14, isMy: false, time:'00.01.03.715', role:'Chihiro',songEn:'I finally get a bouquet and it\'s a goodbye present.',songZh:'我终于收到了一束花,结果是告别礼物.',code:'0;1;1;0'},
+        {index: 15, isMy: false, time:'00.01.07.051', role:'Mom',songEn:'That\'s depressing.',songZh:'这真让人沮丧.',code:'0;0;2;0'},
+        {index: 16, isMy: false, time:'00.01.07.052', role:'Mom',songEn:'Daddy bought you a rose for your birthday.',songZh:'爸爸给你买了一朵玫瑰花作为生日礼物.',code:'0;0;3;1'},
+        {index: 17, isMy: false, time:'00.01.07.053', role:'Mom',songEn:'Don\'t you remember?',songZh:'你不记得了吗?',code:'1;0;1;0'},
+        {index: 18, isMy: false, time:'00.01.11.509', role:'Chihiro',songEn:'Yeah, one. Just one rose is in a bouquet.',songZh:'是的,就一朵.一束花里就一朵.',code:'0;0;2;0'},
+        {index: 19, isMy: false, time:'00.01.14.553', role:'Mom',songEn:'Hold on to your card.',songZh:'拿着你的卡.',code:'5;0;0;0'},
+        {index: 20, isMy: false, time:'00.01.14.554', role:'Mom',songEn:'I\'m opening the window, and quit whining.',songZh:'我开窗户,别再抱怨了.',code:'0;1;1;4'},
+        {index: 21, isMy: false, time:'00.01.17.196', role:'Mom',songEn:'It\'s fun to move to a new place.',songZh:'搬到新地方很有趣.',code:'0;0;2;0'},
+        {index: 22, isMy: false, time:'00.01.17.197', role:'Mom',songEn:'It\'s an adventure.',songZh:'这是一场冒险',code:'0;0;2;0'},
+        {index: 23, isMy: false, time:'00.01.57.043', role:'Dad',songEn:'Wait, did I take the wrong turn?',songZh:'等等,我是不是走错路了?',code:'1;1;1;1'},
     ];
 </script>
 
 <script>
     // 获取元素
     const title = document.querySelector('.title');
+    const languageBaseOk = document.querySelector('.language-base-ok')
     const languageZhOk = document.querySelector('.language-zh-ok');
     const prev = document.querySelector('.prev');
     const playPause = document.querySelector('.playPause');
@@ -1526,6 +1529,9 @@
     // 加载歌曲
     function loadSong(song) {
         title.textContent = song.songEn;
+        // 切割 code。转换 成分
+        rules = song.code.split(';')
+        languageBaseOk.textContent = ruleType[parseInt(rules[0])] + '\u2003\u2003' + ruleStruct[parseInt(rules[1])] + '\u2003\u2003' + ruleSentence[parseInt(rules[2])] + '\u2003\u2003' + ruleTense[parseInt(rules[3])];
         languageZhOk.textContent = song.index + '\u2003\u2003' + song.songZh;
         audio.src = './mp3/' + song.time + '.en.mp3';
 
