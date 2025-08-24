@@ -641,15 +641,45 @@
             border-bottom-color: #B6CBBD;
         }
         /* 编辑模式下的歌词项样式 */
-        .lyric-item.my-lines-border {
+        /* .lyric-item.my-lines-border {
             border-left-color:#B6CBBD;
-        }
+        } */
         .lyric-item:hover {
             background: rgba(56, 167, 255, 0.1);
             transform: translateX(5px);
         }
         
         .lyric-item.active {
+            background: rgba(56, 167, 255, 0.2);
+            border-left: 4px solid #38a7ff;
+        }
+
+        .lyric-itemb {
+            position: relative; /* 为绝对定位的子元素提供参考 */
+            width: 95%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: rgba(240, 240, 240, 0.7);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-style: solid;
+            border-color: rgba(240, 240, 240, 0.7);
+        }
+        /* 编辑模式下的歌词项样式 */
+        .lyric-itemb.edit-mode {
+            border-bottom-color: #B6CBBD;
+        }
+        /* 编辑模式下的歌词项样式 */
+        .lyric-itemb.my-lines-border {
+            border-left-color:#B6CBBD;
+        }
+        .lyric-itemb:hover {
+            background: rgba(56, 167, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .lyric-itemb.active {
             background: rgba(56, 167, 255, 0.2);
             border-left: 4px solid #38a7ff;
         }
@@ -1089,8 +1119,8 @@
             songList.forEach((song, index) => {
                 if (song.isMy) {
                     const lyricItem = document.createElement('li');
-                    lyricItem.className = 'lyric-item';
-                    lyricItem.id = 'lyric-item-' + index;
+                    lyricItem.className = 'lyric-itemb';
+                    lyricItem.id = 'lyric-itemb-' + index;
                     lyricItem.dataset.songIndex = index;
                     
                     let content = '';
@@ -1101,26 +1131,17 @@
                     
                     // 根据编辑模式设置样式
                     updateLyricItemStyle(lyricItem);
-                    
+                    // console.log(' test : 1')
                     // 根据编辑模式绑定不同的事件
                     if (is_my_lines_edit) {
                         // 编辑模式下绑定新事件
+                        // console.log(' test : 2')
                         lyricItem.addEventListener('click', handleEditModeClick);
                         lyricItem.addEventListener('dblclick', handleEditModeDblClick);
                     } else {
                         // 非编辑模式下绑定原事件
-                        lyricItem.addEventListener('click', function() {
-                            // 切换到对应歌曲
-                            if (currentSongIndex !== index || !song_Playing) {
-                                currentSongIndex = index;
-                                loadSong(songList[currentSongIndex]);
-                            }
-                            
-                            if (!song_Playing) playSong();
-                            
-                            // 关闭弹窗
-                            closeAllModals();
-                        });
+                        // console.log(' test : 3')
+                        lyricItem.addEventListener('click', handleNoEditModeClick);
                     }
                     
                     lyricsList.appendChild(lyricItem);
@@ -1152,14 +1173,16 @@
             
             // 根据编辑模式设置样式
             updateLyricItemStyle(lyricItem);
-            
+            // console.log(' test : 4')
             // 根据编辑模式绑定不同的事件
             if (is_my_lines_edit) {
                 // 编辑模式下绑定新事件
+                // console.log(' test : 5')
                 lyricItem.addEventListener('click', handleEditModeClick);
                 lyricItem.addEventListener('dblclick', handleEditModeDblClick);
             } else {
                 // 非编辑模式下绑定原事件
+                // console.log(' test : 6')
                 lyricItem.addEventListener('click', function() {
                     // 切换到对应歌曲
                     if (currentSongIndex !== index || !song_Playing) {
@@ -1194,6 +1217,10 @@
         allLyricItems.forEach(item => {
             updateLyricItemStyle(item);
         });
+        const allLyricItemsb = document.querySelectorAll('.lyric-itemb');
+        allLyricItemsb.forEach(item => {
+            updateLyricItemStyle(item);
+        });
     }
 
         // 更新歌词项样式
@@ -1209,6 +1236,10 @@
     function updateAllLyricItemsStyleByMyLines() {
         const allLyricItems = document.querySelectorAll('.lyric-item');
         allLyricItems.forEach(item => {
+            updateLyricItemStyleByMyLines(item);
+        });
+        const allLyricItemsb = document.querySelectorAll('.lyric-itemb');
+        allLyricItemsb.forEach(item => {
             updateLyricItemStyleByMyLines(item);
         });
     }
@@ -1302,44 +1333,51 @@
 
         // 更新勾选图标状态
         updateCheckIcons();
-
+        
         // 重新绑定歌词项事件
         rebindLyricItemEvents();
     }
 
     // 新增：重新绑定歌词项事件函数
         function rebindLyricItemEvents() {
-            const lyricItems = document.querySelectorAll('.lyric-item');
+            const lyricItems = is_my_lines ? document.querySelectorAll('.lyric-itemb') 
+                                        : document.querySelectorAll('.lyric-item');
             
             lyricItems.forEach(item => {
-                // 先移除所有事件监听器
-                item.replaceWith(item.cloneNode(true));
-                
-                // 获取新的元素引用
-                const newItem = document.querySelector(`[data-song-index="${item.dataset.songIndex}"]`);
-
-                if (is_my_lines_edit) {
+                if (is_my_lines_edit && is_my_lines) {
+                    item.removeEventListener('click', handleNoEditModeClick);
                     // 编辑模式下绑定新事件
                     console.log('asdadsa')
+                    item.addEventListener('click', handleEditModeClick);
+                    item.addEventListener('dblclick', handleEditModeDblClick);
+                } else if (is_my_lines_edit && !is_my_lines) {
+                    item.replaceWith(item.cloneNode(true));
+                    const newItem = document.querySelector(`[data-song-index="${item.dataset.songIndex}"]`);
                     newItem.addEventListener('click', handleEditModeClick);
                     newItem.addEventListener('dblclick', handleEditModeDblClick);
                 } else {
+                    item.replaceWith(item.cloneNode(true));
+                    // 获取新的元素引用
+                    const newItem = document.querySelector(`[data-song-index="${item.dataset.songIndex}"]`);
                     // 非编辑模式下绑定原事件
-                    newItem.addEventListener('click', function() {
-                        const index = parseInt(this.dataset.songIndex);
-                        // 切换到对应歌曲
-                        if (currentSongIndex !== index || !song_Playing) {
-                            currentSongIndex = index;
-                            loadSong(songList[currentSongIndex]);
-                        }
-                        
-                        if (!song_Playing) playSong();
-                        
-                        // 关闭弹窗
-                        closeAllModals();
-                    });
+                    newItem.addEventListener('click', handleNoEditModeClick);
                 }
             });
+        }
+
+        // 这里
+        function handleNoEditModeClick() {
+            const index = parseInt(this.dataset.songIndex);
+                // 切换到对应歌曲
+                if (currentSongIndex !== index || !song_Playing) {
+                    currentSongIndex = index;
+                    loadSong(songList[currentSongIndex]);
+                }
+                
+                if (!song_Playing) playSong();
+                
+                // 关闭弹窗
+                closeAllModals();
         }
         
         // 新增：编辑模式点击事件处理
