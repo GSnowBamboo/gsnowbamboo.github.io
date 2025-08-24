@@ -629,8 +629,11 @@
 
         
         .lyric-item {
+            display: flex;
             position: relative; /* 为绝对定位的子元素提供参考 */
+            align-items: center;
             width: 95%;
+            height: 30px;
             padding: 12px 15px;
             border-radius: 8px;
             margin-bottom: 8px;
@@ -659,8 +662,11 @@
         }
 
         .lyric-itemb {
+            display: flex;
             position: relative; /* 为绝对定位的子元素提供参考 */
+            align-items: center;
             width: 95%;
+            height: 30px;
             padding: 12px 15px;
             border-radius: 8px;
             margin-bottom: 8px;
@@ -699,10 +705,24 @@
             z-index: 2;
         }
         
+        .lyric-index {
+            left: -1000px;
+            width: 50px;
+            color: #361212;
+            /* background-color: #fff566; */
+            overflow: hidden; /* 超出部分隐藏 */
+        }
         .lyric-en {
-            font-size: 1.1rem;
-            color: #333;
+            font-size: 1.6rem;
+            color: #361212;
             margin-bottom: 5px;
+            margin: 0px 0px 0px 30px;
+            width: 700px;
+            /* height: 10px; */
+            /* background-color: #ff669a; */
+            overflow: hidden; /* 超出部分隐藏 */
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         .lyric-zh {
@@ -1101,8 +1121,9 @@
                     lyricItem.dataset.songIndex = index;
                     
                     let content = '';
-                    if (song.en) content += `<div class="lyric-en">${song.en}</div>`;
-                    if (song.songName) content += `<div class="lyric-zh">${song.songName}</div>`;
+                    content += `<div class="lyric-index">${index + 1}</div>`;
+                    content += `<div class="lyric-en">${song.en}</div>`;
+                    // if (song.songName) content += `<div class="lyric-zh">${song.songName}</div>`;
                     
                     lyricItem.innerHTML = content;
                     
@@ -1132,8 +1153,8 @@
             lyricItem.dataset.songIndex = index;
             
             let content = '';
-            if (song.en) content += `<div class="lyric-en">${song.en}</div>`;
-            if (song.songName) content += `<div class="lyric-zh">${song.songName}</div>`;
+            content += `<div class="lyric-index">${index + 1}</div>`;
+            content += `<div class="lyric-en">${song.en}</div>`;
             
             lyricItem.innerHTML = content;
             
