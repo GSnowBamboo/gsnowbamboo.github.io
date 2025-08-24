@@ -382,10 +382,14 @@
             transform: scale(1.1);
         }
 
-        .detail-btn:active {
+        .detail-btn.active {
             color: #ff669a;
             box-shadow: inset 0 -7px 5px rgba(0,0,0,0.025),
                         inset 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .detail-btn:hover .long-press-tooltip {
+            opacity: 1;
         }
 
         .detail-btn ion-icon {
@@ -969,40 +973,6 @@
     
     // 自定义列表状态
     let is_my_lines = false;
-    
-    // 自定义台词列表数据
-    // const myLyricsList = [
-    //     {
-    //         path: "./music/2.mp3",
-    //         songName: "The Sixth Station",
-    //         en: "Once you've met someone you never really forget them.",
-    //         isMy: false
-    //     },
-    //     {
-    //         path: "./music/5.mp3",
-    //         songName: "Dragon Boy",
-    //         en: "I7 finally get a bouquet and it's a goodbye present.",
-    //         isMy: false
-    //     },
-    //     {
-    //         path: "./music/5.mp3",
-    //         songName: "Dragon Boy",
-    //         en: "I12 finally get a bouquet and it's a goodbye present.",
-    //         isMy: false
-    //     },
-    //     {
-    //         path: "./music/5.mp3",
-    //         songName: "Dragon Boy",
-    //         en: "I13 finally get a bouquet and it's a goodbye present.",
-    //         isMy: false
-    //     },
-    //     {
-    //         path: "./music/5.mp3",
-    //         songName: "Dragon Boy",
-    //         en: "I15 finally get a bouquet and it's a goodbye present.",
-    //         isMy: false
-    //     },
-    // ];
 
     // 切换语言函数
     function toggleLanguage() {
@@ -1064,9 +1034,16 @@
         }
     }
     
+    let is_detail = false
     // 显示详细信息弹窗
     function showDetailModal() {
         console.log('showDetailModal')
+        is_detail = !is_detail;
+        if (is_detail) {
+            detailBtn.classList.add('active');
+        } else {
+            detailBtn.classList.remove('active');
+        }
     }
     
     // 显示帮助弹窗
