@@ -1592,7 +1592,7 @@
         rules = song.code.split(';')
         languageBaseOk.textContent = ruleType[parseInt(rules[0])] + '\u2003\u2003\u2003\u2003\u2003' + ruleStruct[parseInt(rules[1])] + '\u2003\u2003\u2003\u2003\u2003' + ruleSentence[parseInt(rules[2])] + '\u2003\u2003\u2003\u2003\u2003' + ruleTense[parseInt(rules[3])];
         languageZhOk.textContent = song.index + '\u2003\u2003' + song.songZh;
-        audio.src = './mp3/' + song.time + '.en.mp3';
+        audio.src = './mp3/en/' + song.time + '.en.mp3';
 
         // 重置进度条
         progress.style.width = '0%';
