@@ -1492,7 +1492,7 @@
         
         // 新增：编辑模式点击事件处理
         function handleEditModeClick(event) {
-            console.log('..........');
+            // console.log('..........');
             if (is_my_lines) {
                 let index = event.currentTarget.id.split('-')[2]
                 songList[index].isMy = !songList[index].isMy;
@@ -1580,7 +1580,7 @@
         title.textContent = song.songEn;
         // 切割 code。转换 成分
         rules = song.code.split(';')
-        languageBaseOk.textContent = ruleType[parseInt(rules[0])] + '\u2003\u2003' + ruleStruct[parseInt(rules[1])] + '\u2003\u2003' + ruleSentence[parseInt(rules[2])] + '\u2003\u2003' + ruleTense[parseInt(rules[3])];
+        languageBaseOk.textContent = ruleType[parseInt(rules[0])] + '\u2003\u2003\u2003\u2003\u2003' + ruleStruct[parseInt(rules[1])] + '\u2003\u2003\u2003\u2003\u2003' + ruleSentence[parseInt(rules[2])] + '\u2003\u2003\u2003\u2003\u2003' + ruleTense[parseInt(rules[3])];
         languageZhOk.textContent = song.index + '\u2003\u2003' + song.songZh;
         audio.src = './mp3/' + song.time + '.en.mp3';
 
