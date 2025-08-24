@@ -5,7 +5,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
         body {
-            margin: 0;
+            height: 100%;
+            margin: 0; /* 清除默认 margin，避免滚动条 */
             padding: 0;
             font-family: Arial, sans-serif;
             transition: filter 0.5s ease;
@@ -166,21 +167,30 @@
             border-radius: 10px;
         }
         .language-en-single {
+            display: flex;
+            justify-content: center; /* 水平居中子元素 */
+            align-items: center; /* 垂直居中子元素 */
             /* background-color: #ff669a; */
             width: 100%;
             height: 100%;
-            display: block;
+            color: #000000;
         }
 
         .language-en-double {
+            display: flex;
+            justify-content: center; /* 水平居中子元素 */
+            align-items: center; /* 垂直居中子元素 */
             width: 100%;
             height: 100%;
             /* background-color: #ffcd38; */
-            display: none;
+            display: flex;
         }
 
         .language-en-double-1,
         .language-en-double-2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
             height: 50%;
             color: #000000;
@@ -893,9 +903,6 @@
                     <div class="language-en">
                         <div class="language-en-single">
                             <h2 class="title"></h2>
-                            <span>
-                               单行显示En: 分析图表 原文, 成分
-                            </span>
                         </div>
                         <div class="language-en-double">
                             <div class="language-en-double-1">
@@ -1022,8 +1029,8 @@
     const ruleTense = ['一般现在时','一般过去时','一般将来时','一般过去将来时','现在进行时','过去进行时','将来进行时','过去将来进行时','现在完成时','过去完成时','将来完成时','过去将来完成时','现在完成进行时','过去完成进行时','将来完成进行时','过去将来完成进行时'];
 
     songList = [
-        {row: 2, index: 1, isMy: false, time:'00.00.14.383', role:'Chihiro',songEn:'I\'ll miss you, chihiro, your best friend, Rumi.',songZh:'我会想念你的,千寻,你最好的朋友,露米.',code:'0;0;1;2'},
-        {row: 1, index: 2, isMy: false, time:'00.00.19.348', role:'Dad',songEn:'Chihiro, Chihiro, we\'re almost there.',songZh:'千寻,千寻,我们快到了.',code:'0;0;5;0'},
+        {row: 1, index: 1, isMy: false, time:'00.00.14.383', role:'Chihiro',songEn:'I\'ll miss you, chihiro, your best friend, Rumi.',songZh:'我会想念你的,千寻,你最好的朋友,露米.',code:'0;0;1;2'},
+        {row: 2, index: 2, isMy: false, time:'00.00.19.348', role:'Dad',songEn:'Chihiro, Chihiro, we\'re almost there.',songZh:'千寻,千寻,我们快到了.',code:'0;0;5;0'},
         {row: 1, index: 3, isMy: false, time:'00.00.23.093', role:'Mom',songEn:'This really is in the middle of nowhere.',songZh:'这真的是在荒郊野外.',code:'0;0;2;0'},
         {row: 1, index: 4, isMy: false, time:'00.00.25.982', role:'Mom',songEn:'I\'m gonna have to go to the next town to shop.',songZh:'我得去下一个镇上购物.',code:'0;0;5;2'},
         {row: 1, index: 5, isMy: false, time:'00.00.25.983', role:'Chihiro',songEn:'We\'ll just have to learn to like it.',songZh:'我们只好习惯这里.',code:'0;0;1;2'},
@@ -1563,11 +1570,11 @@
     // 加载歌曲
     function loadSong(song) {
         if (song.row == 1) {
-            languageEnSingle.style.display = 'block';
+            languageEnSingle.style.display = 'flex';
             languageEnDouble.style.display = 'none';
         } else if (song.row == 2) {
             languageEnSingle.style.display = 'none';
-            languageEnDouble.style.display = 'block';
+            languageEnDouble.style.display = 'block'; // 分块 居中显示 不能用 flex
         }
 
         title.textContent = song.songEn;
