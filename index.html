@@ -122,6 +122,32 @@
             display: block;
             margin-bottom: 10px;
         }
+
+        .language-line {
+            width: 750px;
+            margin: 0px 100px 0px 200px;
+            height: 3px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            visibility: hidden
+        }
+
+        .language-base {
+            position: relative;
+            margin: 0px;
+            height: 39px;
+            width: 1150px;
+            border-radius: 10px;
+            visibility: hidden
+        }
+
+        .language-base span {
+            font-size: 25px;
+            color: #000000;
+        }
+
         .language-en {
             position: relative;
             margin: 10px 10px 10px 25px;
@@ -130,26 +156,17 @@
             border-radius: 10px;
         }
 
-        .language-line {
-            width: 1150px;
-            margin: 0px 10px 0px 25px;
-            height: 3px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
         .language-zh {
             position: relative;
-            margin: 10px 10px 10px 25px;
-            height: 65px;
+            margin: 0px;
+            height: 25px;
             width: 1150px;
             border-radius: 10px;
         }
 
         .language-zh span {
-            flood-color: #333;
+            font-size: 25px;
+            color: #000000;
         }
         
         .player {
@@ -837,14 +854,21 @@
 
             <div class="music">
                 <div class="detail-container">
-                    <div class="language-en">
-                        En:<h2 class="title"></h2>
+                    <!-- 句型 说明 -->
+                    <div class="language-base" id="language-base">
                         <span>
-                            分析图表 原文, 成分
+                            动态显示 &emsp;&emsp;
+                            结构&emsp;&emsp; 种类&emsp;&emsp; 句型&emsp;&emsp; 时态 
                         </span>
                     </div>
-                    <div class="language-line">
+                    <div class="language-line" id="language-line-up"></div>
+                    <div class="language-en">
+                        En:<h2 class="title"></h2>
+                            <span>
+                                分析图表 原文, 成分
+                            </span>
                     </div>
+                    <div class="language-line"></div>
                     <div class="language-zh">
                         <span>
                             这里是对应英语句子的翻译
@@ -1059,10 +1083,16 @@
     function showDetailModal() {
         console.log('showDetailModal')
         is_detail = !is_detail;
+        let languageBase = document.getElementById('language-base');
+        let languageLineUp = document.getElementById('language-line-up');
         if (is_detail) {
             detailBtn.classList.add('active');
+            languageBase.style.visibility = 'visible'
+            languageLineUp.style.visibility = 'visible'
         } else {
             detailBtn.classList.remove('active');
+            languageBase.style.visibility = 'hidden'
+            languageLineUp.style.visibility = 'hidden'
         }
     }
     
